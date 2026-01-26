@@ -1,12 +1,641 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialLocal - Eventos Privados y Planes Sociales</title>
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/calendar--v1.png">
 </head>
 <body>
-    
+    <!-- Header y Navegación -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-glass-cheers"></i>
+                    <h1>Social<span class="logo-accent">Local</span></h1>
+                </div>
+                
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+                        <li><a href="#eventos" class="nav-link">Eventos</a></li>
+                        <li><a href="#mapa" class="nav-link">Mapa</a></li>
+                        <li><a href="#crear-evento" class="nav-link">Crear Evento</a></li>
+                        <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                    </ul>
+                    <div class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </nav>
+                
+                <div class="user-actions">
+                    <button class="btn btn-login">
+                        <i class="fas fa-user"></i> Iniciar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title">Descubre planes <span class="highlight">privados</span> cerca de ti</h2>
+                <p class="hero-subtitle">Eventos exclusivos en casas, chalets y espacios únicos. Conoce gente, comparte experiencias y vive momentos inolvidables.</p>
+                
+                <div class="hero-actions">
+                    <a href="#eventos" class="btn btn-primary btn-large">
+                        <i class="fas fa-search"></i> Explorar Eventos
+                    </a>
+                    <a href="#crear-evento" class="btn btn-secondary btn-large">
+                        <i class="fas fa-plus-circle"></i> Crear Evento
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Buscador Visual Simulado -->
+            <div class="search-container">
+                <div class="search-card">
+                    <h3 class="search-title">Encuentra tu próximo plan</h3>
+                    <div class="search-fields">
+                        <div class="search-field">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" placeholder="¿Dónde buscas?" class="search-input" disabled>
+                        </div>
+                        <div class="search-field">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input type="text" placeholder="Fecha" class="search-input" disabled>
+                        </div>
+                        <div class="search-field">
+                            <i class="fas fa-tag"></i>
+                            <select class="search-select" disabled>
+                                <option>Tipo de evento</option>
+                                <option>Fiesta en Casa</option>
+                                <option>Cena Privada</option>
+                                <option>Afterwork</option>
+                                <option>Barbacoa</option>
+                                <option>Juegos de Mesa</option>
+                                <option>Concierto Íntimo</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-search" disabled>
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Eventos -->
+    <section id="eventos" class="events">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Próximos <span class="highlight">Eventos</span></h2>
+                <p class="section-subtitle">Descubre experiencias únicas organizadas por la comunidad</p>
+            </div>
+            
+            <div class="events-filter">
+                <button class="filter-btn active">Todos</button>
+                <button class="filter-btn">Esta semana</button>
+                <button class="filter-btn">Fiestas</button>
+                <button class="filter-btn">Gastronomía</button>
+                <button class="filter-btn">Cultural</button>
+            </div>
+            
+            <div class="events-grid">
+                <!-- Evento 1 -->
+                <article class="event-card">
+                    <div class="event-image">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80" 
+                             alt="Fiesta en terraza con vistas" loading="lazy">
+                        <span class="event-badge fiesta">Fiesta</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Sunset Party en Terraza Premium</h3>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Chalet en La Moraleja</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Sáb, 15 Jun - 20:00</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users"></i>
+                                <span>25 plazas disponibles</span>
+                            </div>
+                        </div>
+                        <p class="event-description">DJ en directo, cócteles premium y vistas espectaculares. Ambiente exclusivo y buen rollo garantizado.</p>
+                        <div class="event-footer">
+                            <span class="event-price">15€</span>
+                            <button class="btn btn-small" disabled>Ver Detalles</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Evento 2 -->
+                <article class="event-card">
+                    <div class="event-image">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             alt="Cena gourmet privada" loading="lazy">
+                        <span class="event-badge gastronomia">Gastronomía</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Cena Gourmet con Chef Profesional</h3>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Loft en Chamberí</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Vie, 21 Jun - 21:00</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users"></i>
+                                <span>12 plazas disponibles</span>
+                            </div>
+                        </div>
+                        <p class="event-description">Menú degustación de 5 platos con maridaje. Experiencia culinaria única en ambiente íntimo.</p>
+                        <div class="event-footer">
+                            <span class="event-price">45€</span>
+                            <button class="btn btn-small" disabled>Ver Detalles</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Evento 3 -->
+                <article class="event-card">
+                    <div class="event-image">
+                        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             alt="Sesión de juegos de mesa" loading="lazy">
+                        <span class="event-badge juegos">Juegos</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Noche de Juegos de Mesa Premium</h3>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Casa en Malasaña</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Jue, 20 Jun - 19:30</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users"></i>
+                                <span>8 plazas disponibles</span>
+                            </div>
+                        </div>
+                        <p class="event-description">Colección de juegos modernos, snacks y bebidas. Perfecto para hacer nuevas amistades.</p>
+                        <div class="event-footer">
+                            <span class="event-price">10€</span>
+                            <button class="btn btn-small" disabled>Ver Detalles</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Evento 4 -->
+                <article class="event-card">
+                    <div class="event-image">
+                        <img src="https://images.unsplash.com/photo-1492684223066-8133c79d7213?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             alt="Concierto acústico íntimo" loading="lazy">
+                        <span class="event-badge musica">Música</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Concierto Acústico en Salón Privado</h3>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Estudio en Lavapiés</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Sáb, 22 Jun - 22:00</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users"></i>
+                                <span>30 plazas disponibles</span>
+                            </div>
+                        </div>
+                        <p class="event-description">Artistas emergentes en formato íntimo. Barra de cervezas artesanales incluida.</p>
+                        <div class="event-footer">
+                            <span class="event-price">20€</span>
+                            <button class="btn btn-small" disabled>Ver Detalles</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Evento 5 -->
+                <article class="event-card">
+                    <div class="event-image">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80" 
+                             alt="Barbacoa en jardín" loading="lazy">
+                        <span class="event-badge barbacoa">Barbacoa</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Barbacoa Premium en Jardín Privado</h3>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Jardín en El Viso</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Dom, 23 Jun - 14:00</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users"></i>
+                                <span>15 plazas disponibles</span>
+                            </div>
+                        </div>
+                        <p class="event-description">Carne a la parrilla, ensaladas y bebidas. Piscina disponible. Ambiente familiar.</p>
+                        <div class="event-footer">
+                            <span class="event-price">25€</span>
+                            <button class="btn btn-small" disabled>Ver Detalles</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Evento 6 -->
+                <article class="event-card">
+                    <div class="event-image">
+                        <img src="https://images.unsplash.com/photo-1519677100203-3f3d5b071a7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             alt="Afterwork networking" loading="lazy">
+                        <span class="event-badge networking">Networking</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Afterwork Tech & Networking</h3>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Oficina en Salamanca</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Mié, 19 Jun - 19:00</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users"></i>
+                                <span>40 plazas disponibles</span>
+                            </div>
+                        </div>
+                        <p class="event-description">Conexiones profesionales en ambiente distendido. Cócteles y tapas gourmet.</p>
+                        <div class="event-footer">
+                            <span class="event-price">Gratis</span>
+                            <button class="btn btn-small" disabled>Ver Detalles</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Mapa Simulado -->
+    <section id="mapa" class="map-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Eventos en el <span class="highlight">Mapa</span></h2>
+                <p class="section-subtitle">Ubicaciones de los planes más interesantes de tu zona</p>
+            </div>
+            
+            <div class="map-container">
+                <div class="map-mockup">
+                    <!-- Mapa simulado con CSS -->
+                    <div class="map-background">
+                        <div class="map-grid">
+                            <!-- Calles simuladas -->
+                            <div class="street horizontal street-1"></div>
+                            <div class="street horizontal street-2"></div>
+                            <div class="street vertical street-3"></div>
+                            <div class="street vertical street-4"></div>
+                            
+                            <!-- Marcadores de eventos -->
+                            <div class="map-marker marker-1" data-event="fiesta">
+                                <i class="fas fa-glass-cheers"></i>
+                                <div class="marker-tooltip">Sunset Party</div>
+                            </div>
+                            <div class="map-marker marker-2" data-event="gastronomia">
+                                <i class="fas fa-utensils"></i>
+                                <div class="marker-tooltip">Cena Gourmet</div>
+                            </div>
+                            <div class="map-marker marker-3" data-event="juegos">
+                                <i class="fas fa-dice"></i>
+                                <div class="marker-tooltip">Juegos de Mesa</div>
+                            </div>
+                            <div class="map-marker marker-4" data-event="musica">
+                                <i class="fas fa-music"></i>
+                                <div class="marker-tooltip">Concierto</div>
+                            </div>
+                            <div class="map-marker marker-5" data-event="barbacoa">
+                                <i class="fas fa-fire"></i>
+                                <div class="marker-tooltip">Barbacoa</div>
+                            </div>
+                            <div class="map-marker marker-6" data-event="networking">
+                                <i class="fas fa-briefcase"></i>
+                                <div class="marker-tooltip">Networking</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="map-legend">
+                    <h3 class="legend-title">Leyenda del Mapa</h3>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <span class="legend-color fiesta"></span>
+                            <span>Fiestas y Social</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color gastronomia"></span>
+                            <span>Gastronomía</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color juegos"></span>
+                            <span>Juegos y Ocio</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color musica"></span>
+                            <span>Música y Arte</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color barbacoa"></span>
+                            <span>Barbacoas</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color networking"></span>
+                            <span>Networking</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulario Crear Evento -->
+    <section id="crear-evento" class="create-event">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Crea tu <span class="highlight">Evento</span></h2>
+                <p class="section-subtitle">Comparte tu plan con la comunidad y conecta con personas afines</p>
+            </div>
+            
+            <div class="form-container">
+                <form class="event-form" id="eventForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-name">
+                                <i class="fas fa-heading"></i> Nombre del Evento
+                            </label>
+                            <input type="text" id="event-name" placeholder="Ej: Cena Temática Italiana" disabled>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="event-type">
+                                <i class="fas fa-tag"></i> Tipo de Evento
+                            </label>
+                            <select id="event-type" disabled>
+                                <option>Selecciona un tipo</option>
+                                <option>Fiesta en Casa</option>
+                                <option>Cena Privada</option>
+                                <option>Afterwork</option>
+                                <option>Barbacoa</option>
+                                <option>Juegos de Mesa</option>
+                                <option>Concierto Íntimo</option>
+                                <option>Clase/Taller</option>
+                                <option>Deportes</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-location">
+                                <i class="fas fa-map-marker-alt"></i> Ubicación
+                            </label>
+                            <input type="text" id="event-location" placeholder="Dirección o zona aproximada" disabled>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="event-date">
+                                <i class="fas fa-calendar-alt"></i> Fecha y Hora
+                            </label>
+                            <input type="text" id="event-date" placeholder="DD/MM/AAAA HH:MM" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-description">
+                            <i class="fas fa-align-left"></i> Descripción
+                        </label>
+                        <textarea id="event-description" rows="4" placeholder="Describe tu evento, ambiente, normas, qué incluye..." disabled></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-capacity">
+                                <i class="fas fa-users"></i> Capacidad Máxima
+                            </label>
+                            <input type="number" id="event-capacity" min="1" max="100" placeholder="Ej: 20" disabled>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="event-price">
+                                <i class="fas fa-euro-sign"></i> Precio por Persona
+                            </label>
+                            <input type="text" id="event-price" placeholder="Ej: 25€ (0€ si es gratis)" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-image">
+                            <i class="fas fa-image"></i> Imagen del Evento (URL)
+                        </label>
+                        <input type="text" id="event-image" placeholder="https://ejemplo.com/imagen-evento.jpg" disabled>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-secondary" disabled>
+                            <i class="fas fa-redo"></i> Limpiar Formulario
+                        </button>
+                        <button type="submit" class="btn btn-primary" disabled>
+                            <i class="fas fa-paper-plane"></i> Crear Evento
+                        </button>
+                    </div>
+                    
+                    <div class="form-note">
+                        <p><i class="fas fa-info-circle"></i> Al publicar tu evento, aceptas nuestros términos y condiciones. Los eventos serán revisados antes de aparecer públicamente.</p>
+                    </div>
+                </form>
+                
+                <div class="form-preview">
+                    <h3 class="preview-title">Vista Previa de tu Evento</h3>
+                    <div class="preview-card">
+                        <div class="preview-image">
+                            <img src="https://images.unsplash.com/photo-1519677100203-3f3d5b071a7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
+                                 alt="Vista previa del evento" loading="lazy">
+                        </div>
+                        <div class="preview-content">
+                            <h4 class="preview-event-title">[Nombre del Evento]</h4>
+                            <div class="preview-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> [Ubicación]</span>
+                                <span><i class="fas fa-calendar-alt"></i> [Fecha]</span>
+                            </div>
+                            <p class="preview-description">[Descripción del evento aparecerá aquí]</p>
+                            <div class="preview-footer">
+                                <span class="preview-price">[Precio]</span>
+                                <span class="preview-places">[Capacidad] plazas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-glass-cheers"></i>
+                        <h3>Social<span class="logo-accent">Local</span></h3>
+                    </div>
+                    <p class="footer-description">
+                        Conectamos personas a través de experiencias sociales auténticas. Descubre planes únicos y comparte momentos inolvidables.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#eventos">Eventos</a></li>
+                        <li><a href="#mapa">Mapa</a></li>
+                        <li><a href="#crear-evento">Crear Evento</a></li>
+                        <li><a href="#">Cómo Funciona</a></li>
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Política de Cookies</a></li>
+                        <li><a href="#">Aviso Legal</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">Contacto</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-envelope"></i> info@sociallocal.com</p>
+                        <p><i class="fas fa-phone"></i> +34 910 123 456</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Madrid, España</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 SocialLocal. Todos los derechos reservados. | Proyecto académico - Solo HTML/CSS</p>
+                <p class="footer-note">Este es un proyecto demostrativo. Las funcionalidades están simuladas visualmente con CSS.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script para simular navegación SPA (solo para demostración visual) -->
+    <script>
+        // Este script solo es para demostración visual, no añade funcionalidad real
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simular navegación suave entre secciones
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Actualizar navegación activa
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Desplazar suavemente a la sección (simulado visualmente)
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Simular hover en botones deshabilitados
+            const disabledButtons = document.querySelectorAll('button:disabled, .btn[disabled]');
+            disabledButtons.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.cursor = 'not-allowed';
+                });
+            });
+            
+            // Simular filtro de eventos
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Simular hover en marcadores del mapa
+            const markers = document.querySelectorAll('.map-marker');
+            markers.forEach(marker => {
+                marker.addEventListener('mouseenter', function() {
+                    const tooltip = this.querySelector('.marker-tooltip');
+                    if (tooltip) {
+                        tooltip.style.opacity = '1';
+                        tooltip.style.visibility = 'visible';
+                    }
+                });
+                
+                marker.addEventListener('mouseleave', function() {
+                    const tooltip = this.querySelector('.marker-tooltip');
+                    if (tooltip) {
+                        tooltip.style.opacity = '0';
+                        tooltip.style.visibility = 'hidden';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
