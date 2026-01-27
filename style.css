@@ -153,6 +153,129 @@ body {
     cursor: pointer;
 }
 
+.user-actions {
+    display: flex;
+    gap: var(--space-md);
+}
+
+/* ==========================================================================
+   BOTONES
+   ========================================================================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: 10px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0);
+    transition: background var(--transition-normal);
+    z-index: -1;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+}
+
+.btn-secondary:active {
+    transform: translateY(-1px);
+}
+
+.btn-large {
+    padding: 16px 40px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    min-width: 180px;
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    min-width: auto;
+}
+
+.btn-login {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 12px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.btn-login:hover::before {
+    left: 100%;
+}
+
+.btn-login:active {
+    transform: translateY(-1px);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
 /* ==========================================================================
    HERO SECTION
    ========================================================================== */
@@ -221,9 +344,48 @@ body {
 
 .hero-actions {
     display: flex;
-    gap: var(--space-md);
+    gap: var(--space-lg);
     justify-content: center;
     margin-bottom: var(--space-2xl);
+    flex-wrap: wrap;
+}
+
+.hero-actions .btn {
+    min-width: 220px;
+    padding: 18px 44px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all var(--transition-normal);
+}
+
+.hero-actions .btn-primary {
+    background: linear-gradient(135deg, var(--white) 0%, #f0f0ff 100%);
+    color: var(--primary-color);
+    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.3);
+}
+
+.hero-actions .btn-primary:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 16px 50px rgba(255, 255, 255, 0.4);
+}
+
+.hero-actions .btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    border: 2px solid var(--white);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.hero-actions .btn-secondary:hover {
+    background: var(--white);
+    color: var(--primary-color);
+    border-color: var(--white);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 16px 50px rgba(255, 255, 255, 0.3);
 }
 
 /* Search Container */
@@ -536,198 +698,334 @@ body {
     align-items: start;
 }
 
-.map-mockup {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.map-wrapper {
+    background: var(--white);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
-    height: 450px;
-    position: relative;
-    width: 100%;
-    background-image: 
-        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><style>.street { stroke: rgba(255,255,255,0.15); stroke-width: 8; fill: none; } .street-thick { stroke: rgba(255,255,255,0.25); stroke-width: 12; } .park { fill: rgba(76,175,80,0.1); } .building { fill: rgba(255,255,255,0.08); } </style></defs><rect width="1000" height="1000" fill="rgba(0,0,0,0.1)"/><circle cx="300" cy="250" r="80" class="park"/><circle cx="700" cy="650" r="100" class="park"/><line x1="100" y1="0" x2="100" y2="1000" class="street street-thick"/><line x1="300" y1="0" x2="300" y2="1000" class="street"/><line x1="500" y1="0" x2="500" y2="1000" class="street street-thick"/><line x1="700" y1="0" x2="700" y2="1000" class="street"/><line x1="900" y1="0" x2="900" y2="1000" class="street"/><line x1="0" y1="150" x2="1000" y2="150" class="street"/><line x1="0" y1="350" x2="1000" y2="350" class="street street-thick"/><line x1="0" y1="550" x2="1000" y2="550" class="street"/><line x1="0" y1="750" x2="1000" y2="750" class="street street-thick"/><line x1="0" y1="900" x2="1000" y2="900" class="street"/><rect x="150" y="200" width="100" height="80" class="building"/><rect x="400" y="150" width="90" height="100" class="building"/><rect x="750" y="300" width="110" height="120" class="building"/><rect x="200" y="500" width="95" height="85" class="building"/><rect x="550" y="450" width="100" height="100" class="building"/><rect x="800" y="600" width="110" height="95" class="building"/><rect x="100" y="750" width="100" height="90" class="building"/><rect x="400" y="800" width="105" height="100" class="building"/></svg>'),
-        linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    background-size: cover, cover;
-    background-position: center, center;
-    background-attachment: fixed;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--gray-light);
+    display: flex;
+    flex-direction: column;
+    height: 600px;
 }
 
-.map-mockup::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
-    z-index: 1;
-    pointer-events: none;
-}
-
-.map-background {
-    width: 100%;
-    height: 100%;
-    background: 
-        linear-gradient(180deg, rgba(13, 27, 42, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%),
-        linear-gradient(45deg, #0d1b2a 25%, transparent 25%, transparent 75%, #0d1b2a 75%, #0d1b2a),
-        linear-gradient(45deg, #0d1b2a 25%, transparent 25%, transparent 75%, #0d1b2a 75%, #0d1b2a);
-    background-size: 100% 100%, 80px 80px, 80px 80px;
-    background-position: 0 0, 0 0, 400px 40px;
-    background-color: #0f172a;
-    position: relative;
-    padding: 20px;
-    overflow: hidden;
-}
-
-.map-background::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: 
-        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.08) 0%, transparent 40%);
-    z-index: 2;
-    pointer-events: none;
-}
-
-.map-background::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-    animation: mapShift 20s linear infinite;
-    z-index: 1;
-    pointer-events: none;
-}
-
-@keyframes mapShift {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(10px, 10px); }
-}
-
-.map-grid {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-}
-
-/* Calles del mapa */
-.street {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.street.horizontal {
-    width: 100%;
-    height: 2px;
-}
-
-.street.vertical {
-    width: 2px;
-    height: 100%;
-}
-
-.street-1 {
-    top: 33%;
-}
-
-.street-2 {
-    top: 66%;
-}
-
-.street-3 {
-    left: 33%;
-}
-
-.street-4 {
-    left: 66%;
-}
-
-/* Marcadores del mapa */
-.map-marker {
-    position: absolute;
-    width: 50px;
-    height: 50px;
+/* Controles del mapa superior */
+.map-header {
     background: var(--white);
-    border-radius: 50%;
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--gray-light);
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+    z-index: 100;
+}
+
+.map-controls {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.map-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--gray-light);
+    background: var(--white);
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all var(--transition-normal);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    z-index: 10;
-    border: 3px solid var(--white);
+    color: var(--dark-color);
+    font-size: 0.95rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
-.map-marker::before {
+.map-btn:hover {
+    background: var(--light-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.map-btn:active {
+    transform: translateY(0);
+}
+
+.location-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.location-btn:hover {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+    border-color: var(--primary-light);
+    color: var(--white);
+}
+
+.map-search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: var(--light-color);
+    padding: 0 var(--space-sm);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-light);
+    transition: all var(--transition-normal);
+}
+
+.map-search:focus-within {
+    border-color: var(--primary-color);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.map-search i {
+    color: var(--gray-medium);
+    font-size: 0.95rem;
+}
+
+.map-search input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    color: var(--dark-color);
+}
+
+.map-search input::placeholder {
+    color: var(--gray-medium);
+}
+
+/* Mapa principal */
+.map-mockup {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #e8f4f8;
+}
+
+.map-background {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e8f4f8 0%, #f5f9fb 100%);
+    overflow: hidden;
+}
+
+.map-svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.map-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.03) 0%, transparent 40%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Marcadores del mapa */
+.map-markers {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+}
+
+.map-marker {
+    position: absolute;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: all var(--transition-normal);
+    z-index: 15;
+}
+
+.marker-pin {
+    width: 48px;
+    height: 48px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--white);
+    transition: all var(--transition-normal);
+    position: relative;
+    z-index: 20;
+}
+
+.marker-pin::after {
     content: '';
     position: absolute;
-    inset: -5px;
-    background: radial-gradient(circle, currentColor, transparent 70%);
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
+    background: currentColor;
     opacity: 0;
-    transition: opacity var(--transition-normal);
+    animation: mapPulse 2s ease-out infinite;
+    z-index: -1;
 }
 
-.map-marker:hover {
-    transform: scale(1.4);
-    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.4);
-    z-index: 20;
-    filter: drop-shadow(0 0 12px currentColor);
-}
-
-.map-marker:hover::before {
-    opacity: 0.3;
-    animation: pulse 0.6s ease-out;
+@keyframes mapPulse {
+    0% {
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+    }
+    100% {
+        width: 200%;
+        height: 200%;
+        opacity: 0;
+    }
 }
 
 .map-marker i {
     font-size: 1.4rem;
     position: relative;
-    z-index: 2;
+    z-index: 21;
+    transition: transform var(--transition-normal);
 }
 
-.marker-tooltip {
+.map-marker:hover .marker-pin {
+    transform: scale(1.3);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+}
+
+.map-marker:hover .marker-pin i {
+    transform: scale(1.15);
+}
+
+/* Tarjeta de información del marcador */
+.marker-card {
     position: absolute;
-    top: -50px;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.15);
+    width: 240px;
+    z-index: 50;
+    transition: all var(--transition-normal);
+    border: 1px solid var(--gray-light);
+    min-width: 200px;
+}
+
+.marker-card::after {
+    content: '';
+    position: absolute;
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--dark-color), #1e293b);
-    padding: 8px 16px;
-    border-radius: var(--radius-md);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--white);
-    white-space: nowrap;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    visibility: hidden;
-    transition: all var(--transition-normal);
-    z-index: 100;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid var(--white);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-.map-marker:hover .marker-tooltip {
-    opacity: 1;
-    visibility: visible;
-    top: -55px;
+.map-marker:hover .marker-card {
+    transform: translateX(-50%) scale(1);
+}
+
+.marker-card h4 {
+    margin: 0 0 8px 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    font-family: var(--font-display);
+}
+
+.marker-location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--gray-medium);
+    margin: 4px 0;
+}
+
+.marker-location i {
+    color: var(--secondary-color);
+    font-size: 0.8rem;
+}
+
+.marker-price {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 6px 0 4px 0;
+}
+
+.marker-date {
+    font-size: 0.8rem;
+    color: var(--gray-medium);
+    margin: 0;
 }
 
 /* Posiciones de los marcadores */
-.marker-1 { top: 25%; left: calc(50% - 33.33% - 25px); transform: translate(-50%, -50%); }
-.marker-2 { top: 25%; left: 50%; transform: translate(-50%, -50%); }
-.marker-3 { top: 25%; left: calc(50% + 33.33% + 25px); transform: translate(-50%, -50%); }
-.marker-4 { top: 75%; left: calc(50% - 33.33% - 25px); transform: translate(-50%, -50%); }
-.marker-5 { top: 75%; left: 50%; transform: translate(-50%, -50%); }
-.marker-6 { top: 75%; left: calc(50% + 33.33% + 25px); transform: translate(-50%, -50%); }
+.marker-1 { top: 25%; left: 20%; }
+.marker-2 { top: 35%; left: 50%; }
+.marker-3 { top: 28%; left: 75%; }
+.marker-4 { top: 70%; left: 35%; }
+.marker-5 { top: 72%; left: 60%; }
+.marker-6 { top: 65%; left: 82%; }
 
-/* Colores de los marcadores por tipo */
-[data-event="fiesta"] { color: #ff6b6b; }
-[data-event="gastronomia"] { color: #4ecdc4; }
-[data-event="juegos"] { color: #45b7d1; }
-[data-event="musica"] { color: #96ceb4; }
-[data-event="barbacoa"] { color: #feca57; }
-[data-event="networking"] { color: #6c63ff; }
+/* Colores de los marcadores */
+[data-event="fiesta"] .marker-pin { color: #ff6b6b; }
+[data-event="gastronomia"] .marker-pin { color: #4ecdc4; }
+[data-event="juegos"] .marker-pin { color: #45b7d1; }
+[data-event="musica"] .marker-pin { color: #96ceb4; }
+[data-event="barbacoa"] .marker-pin { color: #feca57; }
+[data-event="networking"] .marker-pin { color: #6c63ff; }
+
+/* Footer del mapa */
+.map-footer {
+    background: var(--white);
+    padding: var(--space-sm) var(--space-md);
+    border-top: 1px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--gray-medium);
+}
+
+.map-attribution {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: center;
+}
+
+.zoom-level {
+    background: var(--light-color);
+    padding: 4px 12px;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.map-credit {
+    font-style: italic;
+}
 
 /* Leyenda del mapa */
 .map-legend {
@@ -736,6 +1034,8 @@ body {
     padding: var(--space-lg);
     box-shadow: var(--shadow-md);
     border: 1px solid var(--gray-light);
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 .legend-title {
@@ -743,36 +1043,53 @@ body {
     color: var(--dark-color);
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-title i {
+    color: var(--primary-color);
 }
 
 .legend-items {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
-    padding: 8px 12px;
+    gap: 12px;
+    padding: 12px;
     border-radius: var(--radius-md);
     background: var(--light-color);
     transition: all var(--transition-normal);
     font-weight: 500;
     color: var(--dark-color);
+    cursor: pointer;
+    border: 2px solid transparent;
 }
 
 .legend-item:hover {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(236, 72, 153, 0.08));
     transform: translateX(4px);
+    border-color: var(--primary-color);
+}
+
+.legend-item.active {
+    border-color: transparent;
 }
 
 .legend-color {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border: 2px solid var(--white);
 }
 
 .legend-color.fiesta { background-color: #ff6b6b; }
@@ -781,6 +1098,39 @@ body {
 .legend-color.musica { background-color: #96ceb4; }
 .legend-color.barbacoa { background-color: #feca57; }
 .legend-color.networking { background-color: #6c63ff; }
+
+.legend-count {
+    margin-left: auto;
+    font-size: 0.85rem;
+    background: rgba(99, 102, 241, 0.1);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    color: var(--primary-color);
+}
+
+.legend-footer {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--gray-light);
+}
+
+/* Scrollbar customizado para la leyenda */
+.map-legend::-webkit-scrollbar {
+    width: 6px;
+}
+
+.map-legend::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.map-legend::-webkit-scrollbar-thumb {
+    background: var(--gray-light);
+    border-radius: 3px;
+}
+
+.map-legend::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-medium);
+}
 
 /* ==========================================================================
    FORMULARIO CREAR EVENTO
@@ -1157,7 +1507,14 @@ body {
     
     .hero-actions {
         flex-direction: column;
-        gap: var(--space-sm);
+        gap: var(--space-md);
+        align-items: center;
+    }
+    
+    .hero-actions .btn {
+        width: 100%;
+        max-width: 280px;
+        min-width: auto;
     }
     
     .search-fields {
