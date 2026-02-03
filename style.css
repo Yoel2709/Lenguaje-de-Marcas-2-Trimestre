@@ -281,7 +281,7 @@ body {
    ========================================================================== */
 
 .hero {
-    padding: 140px 0 100px;
+    padding: 80px 0 60px;
     background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
     color: var(--white);
     position: relative;
@@ -479,7 +479,7 @@ body {
    ========================================================================== */
 
 .events {
-    padding: var(--space-2xl) 0;
+    padding: var(--space-xl) 0;
     background-color: var(--light-color);
 }
 
@@ -687,7 +687,7 @@ body {
    ========================================================================== */
 
 .map-section {
-    padding: var(--space-2xl) 0;
+    padding: var(--space-xl) 0;
     background: linear-gradient(180deg, var(--white) 0%, var(--light-color) 100%);
 }
 
@@ -1137,7 +1137,7 @@ body {
    ========================================================================== */
 
 .create-event {
-    padding: var(--space-2xl) 0;
+    padding: var(--space-xl) 0;
     background-color: var(--light-color);
 }
 
