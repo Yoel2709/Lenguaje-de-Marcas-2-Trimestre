@@ -4,300 +4,1183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialLocal - Eventos Privados y Planes Sociales</title>
+    
+    <!-- Dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/calendar--v1.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/conference-call.png">
+    
+    <style>
+        /* CSS Refactorizado - Variables y Estructura Modular */
+        :root {
+            /* Colors */
+            --primary: #7c3aed;
+            --primary-dark: #5b21b6;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --light-gray: #e5e7eb;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-xxl: 3rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius: 0.75rem;
+            --radius-lg: 1rem;
+            
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition: 300ms ease;
+            --transition-slow: 500ms ease;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            padding-top: 76px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color var(--transition-fast);
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        /* Utility Classes */
+        .text-primary { color: var(--primary); }
+        .text-secondary { color: var(--secondary); }
+        .bg-primary { background-color: var(--primary); }
+        .bg-light { background-color: var(--light); }
+        .bg-dark { background-color: var(--dark); }
+        
+        .shadow-sm { box-shadow: var(--shadow-sm); }
+        .shadow { box-shadow: var(--shadow); }
+        .shadow-lg { box-shadow: var(--shadow-lg); }
+        
+        .rounded-sm { border-radius: var(--radius-sm); }
+        .rounded { border-radius: var(--radius); }
+        .rounded-lg { border-radius: var(--radius-lg); }
+        
+        .transition { transition: var(--transition); }
+        .transition-fast { transition: var(--transition-fast); }
+        
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        .section {
+            padding: var(--spacing-xxl) 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto var(--spacing-xxl);
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 1rem;
+            line-height: 1;
+            gap: 0.5rem;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-light {
+            background-color: white;
+            color: var(--dark);
+            border-color: white;
+        }
+
+        .btn-light:hover {
+            background-color: var(--light-gray);
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            list-style: none;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            padding: var(--spacing-sm) var(--spacing-md);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: var(--spacing-xxl) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: var(--spacing-xl);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-lg);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .search-field {
+            display: flex;
+            align-items: center;
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            padding: 0 var(--spacing-md);
+            border: 2px solid transparent;
+            transition: all var(--transition);
+            height: 56px;
+        }
+
+        .search-field:focus-within {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .search-field i {
+            color: var(--gray);
+            margin-right: var(--spacing-sm);
+        }
+
+        .search-input,
+        .search-select {
+            flex: 1;
+            padding: var(--spacing-sm) 0;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--dark);
+            outline: none;
+        }
+
+        .search-select {
+            cursor: pointer;
+        }
+
+        /* Events Section */
+        .filters {
+            display: flex;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.625rem 1.25rem;
+            background: white;
+            border: 2px solid var(--light-gray);
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .event-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .event-image {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+
+        .event-card:hover .event-image img {
+            transform: scale(1.05);
+        }
+
+        .event-badge {
+            position: absolute;
+            top: var(--spacing-md);
+            right: var(--spacing-md);
+            padding: 0.375rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .badge-fiesta { background: var(--danger); }
+        .badge-gastronomia { background: var(--success); }
+        .badge-juegos { background: #3b82f6; }
+        .badge-musica { background: #8b5cf6; }
+        .badge-barbacoa { background: var(--warning); }
+        .badge-networking { background: #6366f1; }
+
+        .event-content {
+            padding: var(--spacing-lg);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--dark);
+        }
+
+        .event-meta {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .meta-item i {
+            width: 16px;
+            color: var(--primary);
+        }
+
+        .event-description {
+            color: var(--gray);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .event-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Map Section */
+        .map-wrapper {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .map-header {
+            padding: var(--spacing-lg);
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .map-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .map-controls-group {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        #mapContainer {
+            height: 500px;
+            width: 100%;
+        }
+
+        /* Leaflet Customizations */
+        .leaflet-control-zoom {
+            border: none !important;
+            box-shadow: var(--shadow) !important;
+            border-radius: var(--radius-sm) !important;
+            overflow: hidden;
+        }
+
+        .leaflet-control-zoom a {
+            border: none !important;
+            border-radius: 0 !important;
+            background: white !important;
+            color: var(--dark) !important;
+            transition: all var(--transition) !important;
+        }
+
+        .leaflet-control-zoom a:hover {
+            background: var(--primary) !important;
+            color: white !important;
+        }
+
+        .custom-marker {
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            border: 3px solid var(--primary);
+            transition: all var(--transition);
+            cursor: pointer;
+        }
+
+        .custom-marker:hover {
+            transform: scale(1.2);
+            background: var(--primary);
+            color: white;
+        }
+
+        .map-legend {
+            background: white;
+            border-radius: var(--radius);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow);
+        }
+
+        .legend-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .legend-items {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .legend-item:hover,
+        .legend-item.active {
+            background: var(--light);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-count {
+            margin-left: auto;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        /* Form Section */
+        .form-container {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-note {
+            background: #f0f9ff;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--primary);
+            font-size: 0.875rem;
+            color: var(--gray);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-note i {
+            color: var(--primary);
+            margin-top: 2px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .preview-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 100%;
+        }
+
+        .preview-image {
+            height: 200px;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-content {
+            padding: var(--spacing-lg);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: var(--spacing-xxl) 0 var(--spacing-xl);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer-description {
+            color: #9ca3af;
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: var(--spacing-sm);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform var(--transition);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success { background: var(--success); }
+        .notification.error { background: var(--danger); }
+        .notification.info { background: var(--primary); }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .events-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 66px;
+            }
+            
+            .hero {
+                padding: var(--spacing-xl) 0;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-container.active .nav-links {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: var(--spacing-md);
+                box-shadow: var(--shadow);
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+            }
+            
+            .search-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            #mapContainer {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .hero-title {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header y Navegación -->
-    <header class="header">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#inicio" class="logo">
+                <i class="fas fa-users text-primary"></i>
+                <span>Social<span class="text-primary">Local</span></span>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+                <li><a href="#eventos" class="nav-link">Eventos</a></li>
+                <li><a href="#mapa" class="nav-link">Mapa</a></li>
+                <li><a href="#crear-evento" class="nav-link">Crear Evento</a></li>
+                <li><a href="#contacto" class="nav-link">Contacto</a></li>
+            </ul>
+            
+            <button class="btn btn-outline" id="loginBtn">
+                <i class="fas fa-user"></i> Iniciar Sesión
+            </button>
+        </div>
+    </nav>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
         <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-glass-cheers"></i>
-                    <h1>Social<span class="logo-accent">Local</span></h1>
+            <div class="hero-content animate-fade-in">
+                <h1 class="hero-title">Descubre FIESTAS <span class="text-warning">privadas</span> (cerca de ti)</h1>
+                <p class="hero-subtitle">Eventos exclusivos en casas, chalets y espacios únicos. Conoce gente, comparte experiencias y vive momentos inolvidables.</p>
+                
+                <div class="hero-actions">
+                    <a href="#eventos" class="btn btn-light btn-lg">
+                        <i class="fas fa-calendar-alt"></i> Explorar Eventos
+                    </a>
+                    <a href="#crear-evento" class="btn btn-outline btn-lg">
+                        <i class="fas fa-plus-circle"></i> Crear Evento
+                    </a>
                 </div>
-                
-                <nav class="nav">
-                    <ul class="nav-list">
-                        <li><a href="#inicio" class="nav-link active">Inicio</a></li>
-                        <li><a href="#eventos" class="nav-link">Eventos</a></li>
-                        <li><a href="#mapa" class="nav-link">Mapa</a></li>
-                        <li><a href="#crear-evento" class="nav-link">Crear Evento</a></li>
-                        <li><a href="#contacto" class="nav-link">Contacto</a></li>
-                    </ul>
-                    <div class="mobile-menu-btn" id="mobileMenuBtn">
-                        <i class="fas fa-bars"></i>
+            </div>
+
+            <!-- Search -->
+            <div class="search-card animate-fade-in">
+                <h3 class="text-center mb-4">Encuentra tu próximo plan</h3>
+                <div class="search-grid">
+                    <div class="search-field">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" placeholder="¿Dónde buscas?" class="search-input" id="searchLocation">
                     </div>
-                </nav>
-                
-                <div class="user-actions">
-                    <button class="btn btn-login" id="loginBtn">
-                        <i class="fas fa-user"></i> Iniciar Sesión
+                    
+                    <div class="search-field">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="date" class="search-input" id="searchDate">
+                    </div>
+                    
+                    <div class="search-field">
+                        <i class="fas fa-tag"></i>
+                        <select class="search-select" id="searchType">
+                            <option value="">Tipo de evento</option>
+                            <option>Fiesta en Casa</option>
+                            <option>Cena Privada</option>
+                            <option>Afterwork</option>
+                            <option>Juegos de Mesa</option>
+                            <option>Barbacoa</option>
+                            <option>Concierto Íntimo</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="searchBtn">
+                        <i class="fas fa-search"></i> Buscar
                     </button>
                 </div>
             </div>
         </div>
-    </header>
+    </section>
 
-    <!-- Notificación -->
-    <div class="notification" id="notification">
-        ¡Acción realizada con éxito!
-    </div>
-
-    <!-- Sección de Eventos -->
-    <section id="eventos" class="events">
+    <!-- Events Section -->
+    <section id="eventos" class="section">
         <div class="container">
-            <div class="section-header animate-fade-in">
-                <h2 class="section-title">Próximos <span class="highlight">Eventos</span></h2>
+            <div class="text-center mb-5 animate-fade-in">
+                <h2 class="section-title">Próximos <span class="text-primary">Eventos</span></h2>
                 <p class="section-subtitle">Descubre experiencias únicas organizadas por la comunidad</p>
             </div>
-            
-            <div class="events-filter">
+
+            <div class="filters">
                 <button class="filter-btn active" data-filter="all">Todos</button>
                 <button class="filter-btn" data-filter="today">Hoy</button>
                 <button class="filter-btn" data-filter="week">Esta semana</button>
                 <button class="filter-btn" data-filter="month">Este mes</button>
                 <button class="filter-btn" data-filter="year">Este año</button>
             </div>
-            
+
             <div class="events-grid" id="eventsGrid">
-                <!-- Eventos se cargan dinámicamente -->
+                <!-- Events will be loaded here -->
             </div>
         </div>
     </section>
 
-    <!-- Hero Section -->
-    <section id="inicio" class="hero">
+    <!-- Map Section -->
+    <section id="mapa" class="section bg-light">
         <div class="container">
-            <div class="hero-content animate-fade-in">
-                <h2 class="hero-title">Descubre FIESTAS <span class="highlight">privadas</span> (cerca de ti)</h2>
-                <p class="hero-subtitle">Eventos exclusivos en casas, chalets y espacios únicos. Conoce gente, comparte experiencias y vive momentos inolvidables.</p>
-                
-                <div class="hero-actions">
-                    <a href="#eventos" class="btn btn-primary btn-large">
-                        <i class="fas fa-search"></i> Explorar Eventos
-                    </a>
-                    <a href="#crear-evento" class="btn btn-secondary btn-large">
-                        <i class="fas fa-plus-circle"></i> Crear Evento
-                    </a>
-                </div>
+            <div class="text-center mb-5 animate-fade-in">
+                <h2 class="section-title">Eventos en el <span class="text-primary">Mapa</span></h2>
+                <p class="section-subtitle">Ubicaciones reales de los planes más interesantes de tu zona</p>
             </div>
-            
-            <!-- Buscador Visual -->
-            <div class="search-container">
-                <div class="search-card animate-fade-in">
-                    <h3 class="search-title">Encuentra tu próximo plan</h3>
-                    <div class="search-fields">
-                        <div class="search-field">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <input type="text" placeholder="¿Dónde buscas?" class="search-input" id="searchLocation">
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="map-wrapper">
+                        <div class="map-header">
+                            <div class="map-controls">
+                                <div class="map-controls-group">
+                                    <button class="btn btn-outline" id="zoomIn" title="Ampliar">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="btn btn-outline" id="zoomOut" title="Alejar">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button class="btn btn-outline" id="locationBtn" title="Mi ubicación">
+                                        <i class="fas fa-location-arrow"></i>
+                                    </button>
+                                    <button class="btn btn-outline" id="resetViewBtn" title="Vista inicial">
+                                        <i class="fas fa-home"></i>
+                                    </button>
+                                </div>
+                                <div class="search-field" style="flex: 1; max-width: 300px;">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" placeholder="Buscar ubicación..." id="mapSearch">
+                                </div>
+                            </div>
                         </div>
-                        <div class="search-field">
-                            <i class="fas fa-calendar-alt"></i>
-                            <input type="date" class="search-input" id="searchDate">
-                        </div>
-                        <div class="search-field">
-                            <i class="fas fa-tag"></i>
-                            <select class="search-select" id="searchType">
-                                <option value="">Tipo de evento</option>
-                                <option>Fiesta en Casa</option>
-                                <option>Cena Privada</option>
-                                <option>Afterwork</option>
-                                <option>Barbacoa</option>
-                                <option>Juegos de Mesa</option>
-                                <option>Concierto Íntimo</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-search" id="searchBtn">
-                            <i class="fas fa-search"></i> Buscar
-                        </button>
+
+                        <div id="mapContainer"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Sección de Mapa -->
-    <section id="mapa" class="map-section">
-        <div class="container">
-            <div class="section-header animate-fade-in">
-                <h2 class="section-title">Eventos en el <span class="highlight">Mapa</span></h2>
-                <p class="section-subtitle">Ubicaciones de los planes más interesantes de tu zona</p>
-            </div>
-            
-            <div class="map-container">
-                <div class="map-wrapper">
-                    <div class="map-header">
-                        <div class="map-controls">
-                            <button class="map-btn zoom-in" id="zoomIn" title="Ampliar">
-                                <i class="fas fa-plus"></i>
+                <div class="col-lg-4">
+                    <div class="map-legend">
+                        <h3 class="legend-title"><i class="fas fa-layer-group"></i> Categorías</h3>
+                        <div class="legend-items" id="legendItems">
+                            <!-- Legend will be loaded here -->
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline" id="clearFilters">
+                                <i class="fas fa-filter"></i> Limpiar Filtros
                             </button>
-                            <button class="map-btn zoom-out" id="zoomOut" title="Alejar">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button class="map-btn location-btn" id="locationBtn" title="Mi ubicación">
-                                <i class="fas fa-location-arrow"></i>
+                            <button class="btn btn-outline" id="showAllMarkers">
+                                <i class="fas fa-eye"></i> Mostrar Todos
                             </button>
                         </div>
-                        <div class="map-search">
-                            <i class="fas fa-search"></i>
-                            <input type="text" placeholder="Buscar ubicación..." id="mapSearch">
-                        </div>
-                    </div>
-
-                    <div class="map-mockup">
-                        <!-- Mapa SVG -->
-                        <svg class="map-svg" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-                            <!-- Fondo del mapa -->
-                        </svg>
-                        
-                        <!-- Marcadores de eventos -->
-                        <div class="map-markers">
-                            <!-- Marcadores se cargan dinámicamente -->
-                        </div>
-                    </div>
-
-                    <div class="map-footer">
-                        <div class="map-attribution">
-                            <span class="zoom-level" id="zoomLevel">Zoom: 14</span>
-                            <span class="map-credit">© 2024 SocialLocal Maps</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="map-legend">
-                    <h3 class="legend-title"><i class="fas fa-layer-group"></i> Categorías</h3>
-                    <div class="legend-items" id="legendItems">
-                        <!-- Leyenda se carga dinámicamente -->
-                    </div>
-                    <div class="legend-footer">
-                        <button class="btn btn-secondary" id="clearFilters" style="width: 100%; margin-top: 12px; font-size: 0.9rem;">
-                            <i class="fas fa-filter"></i> Limpiar Filtros
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Formulario Crear Evento -->
-    <section id="crear-evento" class="create-event">
+    <!-- Create Event Form -->
+    <section id="crear-evento" class="section">
         <div class="container">
-            <div class="section-header animate-fade-in">
-                <h2 class="section-title">Crea tu <span class="highlight">Evento</span></h2>
+            <div class="text-center mb-5 animate-fade-in">
+                <h2 class="section-title">Crea tu <span class="text-primary">Evento</span></h2>
                 <p class="section-subtitle">Comparte tu plan con la comunidad y conecta con personas afines</p>
             </div>
-            
-            <div class="form-container">
-                <form class="event-form" id="eventForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="event-name">
-                                <i class="fas fa-heading"></i> Nombre del Evento
-                            </label>
-                            <input type="text" id="event-name" placeholder="Ej: Cena Temática Italiana" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="event-type">
-                                <i class="fas fa-tag"></i> Tipo de Evento
-                            </label>
-                            <select id="event-type" required>
-                                <option value="">Selecciona un tipo</option>
-                                <option>Fiesta en Casa</option>
-                                <option>Cena Privada</option>
-                                <option>Afterwork</option>
-                                <option>Barbacoa</option>
-                                <option>Juegos de Mesa</option>
-                                <option>Concierto Íntimo</option>
-                                <option>Clase/Taller</option>
-                                <option>Deportes</option>
-                                <option>Otro</option>
-                            </select>
-                        </div>
+
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="form-container">
+                        <form id="eventForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="event-name" class="form-label">
+                                        <i class="fas fa-heading"></i> Nombre del Evento
+                                    </label>
+                                    <input type="text" class="form-control" id="event-name" 
+                                           placeholder="Ej: Cena Temática Italiana" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="event-type" class="form-label">
+                                        <i class="fas fa-tag"></i> Tipo de Evento
+                                    </label>
+                                    <select class="form-control" id="event-type" required>
+                                        <option value="">Selecciona un tipo</option>
+                                        <option>Fiesta en Casa</option>
+                                        <option>Cena Privada</option>
+                                        <option>Afterwork</option>
+                                        <option>Juegos de Mesa</option>
+                                        <option>Barbacoa</option>
+                                        <option>Concierto Íntimo</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="event-location" class="form-label">
+                                        <i class="fas fa-map-marker-alt"></i> Ubicación
+                                    </label>
+                                    <input type="text" class="form-control" id="event-location" 
+                                           placeholder="Dirección o zona aproximada" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="event-date" class="form-label">
+                                        <i class="fas fa-calendar-alt"></i> Fecha y Hora
+                                    </label>
+                                    <input type="datetime-local" class="form-control" id="event-date" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="event-capacity" class="form-label">
+                                        <i class="fas fa-users"></i> Capacidad Máxima
+                                    </label>
+                                    <input type="number" class="form-control" id="event-capacity" 
+                                           min="1" max="100" placeholder="Ej: 20" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="event-price" class="form-label">
+                                        <i class="fas fa-euro-sign"></i> Precio por Persona
+                                    </label>
+                                    <input type="number" class="form-control" id="event-price" 
+                                           placeholder="0 si es gratis" min="0" step="0.01" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="event-description" class="form-label">
+                                    <i class="fas fa-align-left"></i> Descripción
+                                </label>
+                                <textarea class="form-control" id="event-description" rows="4" 
+                                          placeholder="Describe tu evento, ambiente, normas, qué incluye..." required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="event-image" class="form-label">
+                                    <i class="fas fa-image"></i> Imagen del Evento (URL)
+                                </label>
+                                <input type="url" class="form-control" id="event-image" 
+                                       placeholder="https://ejemplo.com/imagen-evento.jpg">
+                            </div>
+
+                            <div class="form-note">
+                                <i class="fas fa-info-circle"></i>
+                                <div>Tu evento será revisado por nuestro equipo antes de ser publicado para garantizar la seguridad de todos los participantes.</div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="reset" class="btn btn-outline" id="resetForm">
+                                    <i class="fas fa-redo"></i> Limpiar Formulario
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Crear Evento
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="event-location">
-                                <i class="fas fa-map-marker-alt"></i> Ubicación
-                            </label>
-                            <input type="text" id="event-location" placeholder="Dirección o zona aproximada" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="event-date">
-                                <i class="fas fa-calendar-alt"></i> Fecha y Hora
-                            </label>
-                            <input type="datetime-local" id="event-date" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="event-description">
-                            <i class="fas fa-align-left"></i> Descripción
-                        </label>
-                        <textarea id="event-description" rows="4" placeholder="Describe tu evento, ambiente, normas, qué incluye..." required></textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="event-capacity">
-                                <i class="fas fa-users"></i> Capacidad Máxima
-                            </label>
-                            <input type="number" id="event-capacity" min="1" max="100" placeholder="Ej: 20" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="event-price">
-                                <i class="fas fa-euro-sign"></i> Precio por Persona
-                            </label>
-                            <input type="number" id="event-price" placeholder="0 si es gratis" min="0" step="0.01" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="event-image">
-                            <i class="fas fa-image"></i> Imagen del Evento (URL)
-                        </label>
-                        <input type="url" id="event-image" placeholder="https://ejemplo.com/imagen-evento.jpg">
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="reset" class="btn btn-secondary" id="resetForm">
-                            <i class="fas fa-redo"></i> Limpiar Formulario
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i> Crear Evento
-                        </button>
-                    </div>
-                    
-                    <div class="form-note">
-                        <p><i class="fas fa-info-circle"></i> Al publicar tu evento, aceptas nuestros términos y condiciones. Los eventos serán revisados antes de aparecer públicamente.</p>
-                    </div>
-                </form>
-                
-                <div class="form-preview">
-                    <h3 class="preview-title">Vista Previa de tu Evento</h3>
-                    <div class="preview-card" id="eventPreview">
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="preview-card">
                         <div class="preview-image">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJMOc8-hnBVr-zoj2Bk1A9gKjBHRgefU3M7g&s"
+                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80" 
                                  alt="Vista previa del evento" id="previewImage">
                         </div>
                         <div class="preview-content">
-                            <h4 class="preview-event-title" id="previewTitle">Nombre de la fiesta</h4>
-                            <div class="preview-meta">
-                                <span><i class="fas fa-map-marker-alt"></i> <span id="previewLocation">Ubicación</span></span>
-                                <span><i class="fas fa-calendar-alt"></i> <span id="previewDate">Fecha</span></span>
+                            <h4 id="previewTitle" class="mb-3">Nombre de la fiesta</h4>
+                            <div class="meta-item mb-2">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="previewLocation">Ubicación</span>
                             </div>
-                            <p class="preview-description" id="previewDescription">Descripción del evento aparecerá aquí</p>
-                            <div class="preview-footer">
-                                <span class="preview-price" id="previewPrice">€</span>
-                                <span class="preview-places" id="previewPlaces">0 plazas</span>
+                            <div class="meta-item mb-3">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span id="previewDate">Fecha</span>
+                            </div>
+                            <p id="previewDescription" class="text-gray mb-3">Descripción del evento aparecerá aquí</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span id="previewPrice" class="event-price">€</span>
+                                <span id="previewPlaces" class="text-gray">0 plazas</span>
                             </div>
                         </div>
                     </div>
@@ -309,70 +1192,738 @@
     <!-- Footer -->
     <footer id="contacto" class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
+            <div class="footer-grid">
+                <div>
                     <div class="footer-logo">
-                        <i class="fas fa-glass-cheers"></i>
-                        <h3>Social<span class="logo-accent">Local</span></h3>
+                        <i class="fas fa-users text-primary fs-3"></i>
+                        <h4>Social<span class="text-primary">Local</span></h4>
                     </div>
-                    <p class="footer-description">
-                        Conectamos personas a través de experiencias sociales auténticas. Descubre planes únicos y comparte momentos inolvidables.
-                    </p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="TikTok">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
+                    <p class="footer-description">Conectamos personas a través de experiencias únicas. Descubre planes sociales y eventos exclusivos cerca de ti.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                
-                <div class="footer-section">
-                    <h4 class="footer-title">Enlaces Rápidos</h4>
+
+                <div>
+                    <h4 class="mb-3">Enlaces Rápidos</h4>
                     <ul class="footer-links">
                         <li><a href="#inicio">Inicio</a></li>
                         <li><a href="#eventos">Eventos</a></li>
                         <li><a href="#mapa">Mapa</a></li>
                         <li><a href="#crear-evento">Crear Evento</a></li>
-                        <li><a href="#">Cómo Funciona</a></li>
-                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
                     </ul>
                 </div>
-                
-                <div class="footer-section">
-                    <h4 class="footer-title">Legal</h4>
+
+                <div>
+                    <h4 class="mb-3">Contacto</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Términos y Condiciones</a></li>
-                        <li><a href="#">Política de Privacidad</a></li>
-                        <li><a href="#">Política de Cookies</a></li>
-                        <li><a href="#">Aviso Legal</a></li>
+                        <li><i class="fas fa-envelope me-2"></i> info@sociallocal.com</li>
+                        <li><i class="fas fa-phone me-2"></i> +34 910 123 456</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Madrid, España</li>
+                        <li><i class="fas fa-clock me-2"></i> Soporte: 9:00 - 20:00</li>
                     </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4 class="footer-title">Contacto</h4>
-                    <div class="footer-contact">
-                        <p><i class="fas fa-envelope"></i> info@sociallocal.com</p>
-                        <p><i class="fas fa-phone"></i> +34 910 123 456</p>
-                        <p><i class="fas fa-map-marker-alt"></i> Madrid, España</p>
-                    </div>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
-                <p>&copy; 2024 SocialLocal. Todos los derechos reservados. | Proyecto académico - Solo HTML/CSS/JS</p>
-                <p class="footer-note">Este es un proyecto demostrativo con funcionalidades básicas implementadas.</p>
+                <p>&copy; 2024 SocialLocal. Todos los derechos reservados.</p>
+                <p class="mt-2">Proyecto demostrativo con funcionalidades básicas.</p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <script>
+        // =============================================
+        // DATA & CONFIGURATION
+        // =============================================
+        const EVENT_DATA = [
+            {
+                id: 1,
+                title: "Sunset Party en Terraza Premium",
+                location: "Chalet en La Moraleja",
+                date: "2024-06-15T20:00",
+                capacity: 25,
+                available: 25,
+                price: 15,
+                type: "Fiesta en Casa",
+                category: "fiesta",
+                description: "DJ en directo, cócteles premium y vistas espectaculares.",
+                image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80",
+                coordinates: [40.4730, -3.6852]
+            },
+            {
+                id: 2,
+                title: "Cena Gourmet con Chef Profesional",
+                location: "Loft en Chamberí",
+                date: "2024-06-21T21:00",
+                capacity: 12,
+                available: 12,
+                price: 45,
+                type: "Cena Privada",
+                category: "gastronomia",
+                description: "Menú degustación de 5 platos con maridaje.",
+                image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80",
+                coordinates: [40.4340, -3.7030]
+            },
+            {
+                id: 3,
+                title: "Noche de Juegos de Mesa Premium",
+                location: "Casa en Malasaña",
+                date: "2024-06-20T19:30",
+                capacity: 8,
+                available: 8,
+                price: 10,
+                type: "Juegos de Mesa",
+                category: "juegos",
+                description: "Colección de juegos modernos, snacks y bebidas.",
+                image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80",
+                coordinates: [40.4250, -3.7020]
+            },
+            {
+                id: 4,
+                title: "Concierto Acústico en Salón Privado",
+                location: "Estudio en Lavapiés",
+                date: "2024-06-22T22:00",
+                capacity: 30,
+                available: 30,
+                price: 20,
+                type: "Concierto Íntimo",
+                category: "musica",
+                description: "Artistas emergentes en formato íntimo.",
+                image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80",
+                coordinates: [40.4080, -3.7020]
+            },
+            {
+                id: 5,
+                title: "Barbacoa Premium en Jardín Privado",
+                location: "Jardín en El Viso",
+                date: "2024-06-23T14:00",
+                capacity: 15,
+                available: 15,
+                price: 25,
+                type: "Barbacoa",
+                category: "barbacoa",
+                description: "Carne a la parrilla, ensaladas y bebidas.",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80",
+                coordinates: [40.4400, -3.6880]
+            },
+            {
+                id: 6,
+                title: "Afterwork Tech & Networking",
+                location: "Oficina en Salamanca",
+                date: "2024-06-19T19:00",
+                capacity: 40,
+                available: 40,
+                price: 0,
+                type: "Afterwork",
+                category: "networking",
+                description: "Conexiones profesionales en ambiente distendido.",
+                image: "https://images.unsplash.com/photo-1519452639340-7f0d3e2b55b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80",
+                coordinates: [40.4300, -3.6850]
+            }
+        ];
+
+        const CATEGORY_CONFIG = {
+            fiesta: { name: "Fiestas", color: "#ef4444", icon: "fa-glass-cheers" },
+            gastronomia: { name: "Gastronomía", color: "#10b981", icon: "fa-utensils" },
+            juegos: { name: "Juegos", color: "#3b82f6", icon: "fa-dice" },
+            musica: { name: "Música", color: "#8b5cf6", icon: "fa-music" },
+            barbacoa: { name: "Barbacoas", color: "#f59e0b", icon: "fa-fire" },
+            networking: { name: "Networking", color: "#6366f1", icon: "fa-briefcase" }
+        };
+
+        // =============================================
+        // STATE MANAGEMENT
+        // =============================================
+        class AppState {
+            constructor() {
+                this.currentEvents = [...EVENT_DATA];
+                this.activeFilters = {
+                    category: [],
+                    date: 'all'
+                };
+                this.map = null;
+                this.markers = [];
+                this.userLocation = null;
+            }
+
+            updateEvents(events) {
+                this.currentEvents = events;
+                this.renderAll();
+            }
+
+            updateFilters(filters) {
+                this.activeFilters = { ...this.activeFilters, ...filters };
+                this.applyFilters();
+            }
+
+            renderAll() {
+                renderEvents(this.currentEvents);
+                renderMapMarkers(this.currentEvents, this.markers, this.map);
+                renderLegend(this.currentEvents, this.activeFilters);
+            }
+
+            applyFilters() {
+                let filtered = [...EVENT_DATA];
+                
+                // Filter by category
+                if (this.activeFilters.category.length > 0) {
+                    filtered = filtered.filter(event => 
+                        this.activeFilters.category.includes(event.category)
+                    );
+                }
+                
+                // Filter by date
+                if (this.activeFilters.date !== 'all') {
+                    filtered = this.filterByDate(filtered, this.activeFilters.date);
+                }
+                
+                this.currentEvents = filtered;
+                this.renderAll();
+            }
+
+            filterByDate(events, filter) {
+                const now = new Date();
+                
+                return events.filter(event => {
+                    const eventDate = new Date(event.date);
+                    
+                    switch(filter) {
+                        case 'today':
+                            return eventDate.toDateString() === now.toDateString();
+                        case 'week':
+                            const weekFromNow = new Date(now);
+                            weekFromNow.setDate(weekFromNow.getDate() + 7);
+                            return eventDate >= now && eventDate <= weekFromNow;
+                        case 'month':
+                            const monthFromNow = new Date(now);
+                            monthFromNow.setMonth(monthFromNow.getMonth() + 1);
+                            return eventDate >= now && eventDate <= monthFromNow;
+                        case 'year':
+                            const yearFromNow = new Date(now);
+                            yearFromNow.setFullYear(yearFromNow.getFullYear() + 1);
+                            return eventDate >= now && eventDate <= yearFromNow;
+                        default:
+                            return true;
+                    }
+                });
+            }
+
+            clearFilters() {
+                this.activeFilters = { category: [], date: 'all' };
+                this.currentEvents = [...EVENT_DATA];
+                this.renderAll();
+                updateFilterButtons('all');
+            }
+        }
+
+        // =============================================
+        // DOM RENDERERS
+        // =============================================
+        function renderEvents(events) {
+            const container = document.getElementById('eventsGrid');
+            container.innerHTML = events.map(event => `
+                <div class="event-card animate-fade-in">
+                    <div class="event-image">
+                        <img src="${event.image}" alt="${event.title}" loading="lazy">
+                        <span class="event-badge badge-${event.category}">${event.type}</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">${event.title}</h3>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>${event.location}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>${formatDate(event.date)}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users"></i>
+                                <span>${event.available} plazas</span>
+                            </div>
+                        </div>
+                        <p class="event-description">${event.description}</p>
+                        <div class="event-footer">
+                            <span class="event-price">${event.price === 0 ? 'Gratis' : event.price + '€'}</span>
+                            <button class="btn btn-primary btn-sm" onclick="showEventDetails(${event.id})">
+                                Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderMapMarkers(events, markers, map) {
+            // Clear existing markers
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+            
+            // Add new markers
+            events.forEach(event => {
+                if (event.coordinates) {
+                    const marker = L.marker(event.coordinates, {
+                        icon: createMarkerIcon(event.category)
+                    })
+                    .addTo(map)
+                    .bindPopup(createPopupContent(event));
+                    
+                    markers.push(marker);
+                }
+            });
+            
+            // Fit bounds to show all markers
+            if (markers.length > 0) {
+                const group = L.featureGroup(markers);
+                map.fitBounds(group.getBounds().pad(0.1));
+            }
+            
+            return markers;
+        }
+
+        function renderLegend(events, activeFilters) {
+            const container = document.getElementById('legendItems');
+            const categories = Object.keys(CATEGORY_CONFIG);
+            
+            container.innerHTML = categories.map(category => {
+                const config = CATEGORY_CONFIG[category];
+                const count = events.filter(e => e.category === category).length;
+                const isActive = activeFilters.category.includes(category) || 
+                                activeFilters.category.length === 0;
+                
+                return `
+                    <div class="legend-item ${isActive ? 'active' : ''}" 
+                         data-category="${category}"
+                         onclick="toggleCategoryFilter('${category}')">
+                        <span class="legend-color" style="background: ${config.color}"></span>
+                        <span>${config.name}</span>
+                        <span class="legend-count">(${count})</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // =============================================
+        // MAP FUNCTIONS
+        // =============================================
+        function initializeMap() {
+            const map = L.map('mapContainer').setView([40.4168, -3.7038], 13);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+            
+            return map;
+        }
+
+        function createMarkerIcon(category) {
+            const config = CATEGORY_CONFIG[category];
+            
+            return L.divIcon({
+                html: `
+                    <div class="custom-marker" style="border-color: ${config.color};">
+                        <i class="fas ${config.icon}"></i>
+                    </div>
+                `,
+                className: 'custom-div-icon',
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+                popupAnchor: [0, -40]
+            });
+        }
+
+        function createPopupContent(event) {
+            return `
+                <div style="min-width: 250px; padding: 10px;">
+                    <h4 style="margin: 0 0 10px 0; color: var(--dark);">${event.title}</h4>
+                    <p style="margin: 0 0 5px 0; color: var(--gray);">
+                        <i class="fas fa-map-marker-alt"></i> ${event.location}
+                    </p>
+                    <p style="margin: 0 0 5px 0; color: var(--gray);">
+                        <i class="fas fa-calendar-alt"></i> ${formatDate(event.date)}
+                    </p>
+                    <p style="margin: 0 0 10px 0; color: var(--gray);">
+                        <i class="fas fa-users"></i> ${event.available} plazas
+                    </p>
+                    <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary); margin-bottom: 10px;">
+                        ${event.price === 0 ? 'Gratis' : event.price + '€'}
+                    </div>
+                    <button onclick="showEventDetails(${event.id})" 
+                            style="width: 100%; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Ver Detalles
+                    </button>
+                </div>
+            `;
+        }
+
+        // =============================================
+        // EVENT HANDLERS
+        // =============================================
+        function setupEventListeners(appState) {
+            // Navigation
+            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+            setupSmoothScroll();
+            
+            // Search
+            document.getElementById('searchBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                handleSearch(appState);
+            });
+            
+            // Filters
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const filter = e.target.dataset.filter;
+                    handleDateFilter(filter, appState);
+                });
+            });
+            
+            // Map controls
+            document.getElementById('zoomIn').addEventListener('click', () => appState.map.zoomIn());
+            document.getElementById('zoomOut').addEventListener('click', () => appState.map.zoomOut());
+            document.getElementById('locationBtn').addEventListener('click', () => locateUser(appState));
+            document.getElementById('resetViewBtn').addEventListener('click', () => {
+                appState.map.setView([40.4168, -3.7038], 13);
+                showNotification('Vista restablecida', 'info');
+            });
+            
+            // Map search
+            document.getElementById('mapSearch').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchLocation(e.target.value, appState.map);
+                }
+            });
+            
+            // Legend controls
+            document.getElementById('clearFilters').addEventListener('click', () => {
+                appState.clearFilters();
+                showNotification('Filtros limpiados', 'success');
+            });
+            
+            document.getElementById('showAllMarkers').addEventListener('click', () => {
+                if (appState.markers.length > 0) {
+                    const group = L.featureGroup(appState.markers);
+                    appState.map.fitBounds(group.getBounds().pad(0.1));
+                    showNotification('Mostrando todos los eventos', 'info');
+                }
+            });
+            
+            // Form
+            document.getElementById('eventForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleCreateEvent(appState);
+            });
+            
+            document.getElementById('resetForm').addEventListener('click', () => {
+                setTimeout(updateFormPreview, 100);
+            });
+            
+            // Form preview
+            const formInputs = ['event-name', 'event-location', 'event-date', 
+                               'event-description', 'event-capacity', 'event-price', 'event-image'];
+            formInputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', updateFormPreview);
+            });
+            document.getElementById('event-type').addEventListener('change', updateFormPreview);
+            
+            // Login
+            document.getElementById('loginBtn').addEventListener('click', () => {
+                showNotification('Función de login en desarrollo', 'info');
+            });
+        }
+
+        // =============================================
+        // UTILITY FUNCTIONS
+        // =============================================
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', {
+                weekday: 'short',
+                day: 'numeric',
+                month: 'short',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function updateFilterButtons(activeFilter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === activeFilter);
+            });
+        }
+
+        function toggleCategoryFilter(category, appState) {
+            const index = appState.activeFilters.category.indexOf(category);
+            
+            if (index === -1) {
+                appState.activeFilters.category.push(category);
+            } else {
+                appState.activeFilters.category.splice(index, 1);
+            }
+            
+            appState.applyFilters();
+        }
+
+        // =============================================
+        // EVENT HANDLERS IMPLEMENTATION
+        // =============================================
+        function toggleMobileMenu() {
+            document.querySelector('.nav-container').classList.toggle('active');
+        }
+
+        function setupSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        // Update active nav link
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        // Smooth scroll
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu
+                        document.querySelector('.nav-container').classList.remove('active');
+                    }
+                });
+            });
+        }
+
+        function handleSearch(appState) {
+            const location = document.getElementById('searchLocation').value;
+            const date = document.getElementById('searchDate').value;
+            const type = document.getElementById('searchType').value;
+            
+            let filtered = [...EVENT_DATA];
+            
+            if (location) {
+                filtered = filtered.filter(event => 
+                    event.location.toLowerCase().includes(location.toLowerCase())
+                );
+            }
+            
+            if (date) {
+                filtered = filtered.filter(event => 
+                    event.date.startsWith(date)
+                );
+            }
+            
+            if (type) {
+                filtered = filtered.filter(event => 
+                    event.type === type
+                );
+            }
+            
+            appState.updateEvents(filtered);
+            showNotification('Búsqueda realizada', 'success');
+        }
+
+        function handleDateFilter(filter, appState) {
+            updateFilterButtons(filter);
+            appState.updateFilters({ date: filter });
+        }
+
+        function locateUser(appState) {
+            if (!navigator.geolocation) {
+                showNotification('Tu navegador no soporta geolocalización', 'error');
+                return;
+            }
+            
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const { latitude, longitude } = position.coords;
+                    appState.map.setView([latitude, longitude], 15);
+                    
+                    L.marker([latitude, longitude], {
+                        icon: L.divIcon({
+                            html: '<div class="custom-marker" style="border-color: var(--primary); background: var(--primary); color: white;"><i class="fas fa-user"></i></div>',
+                            className: 'custom-div-icon',
+                            iconSize: [40, 40]
+                        })
+                    })
+                    .addTo(appState.map)
+                    .bindPopup('¡Estás aquí!')
+                    .openPopup();
+                    
+                    showNotification('Ubicación encontrada', 'success');
+                },
+                error => {
+                    showNotification('No se pudo obtener tu ubicación', 'error');
+                }
+            );
+        }
+
+        function searchLocation(query, map) {
+            if (!query.trim()) return;
+            
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data?.length > 0) {
+                        const { lat, lon } = data[0];
+                        map.setView([lat, lon], 15);
+                        
+                        L.marker([lat, lon])
+                            .addTo(map)
+                            .bindPopup(`Ubicación: ${query}`)
+                            .openPopup();
+                            
+                        showNotification('Ubicación encontrada', 'success');
+                    } else {
+                        showNotification('Ubicación no encontrada', 'error');
+                    }
+                })
+                .catch(() => showNotification('Error en la búsqueda', 'error'));
+        }
+
+        function handleCreateEvent(appState) {
+            const form = document.getElementById('eventForm');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const newEvent = {
+                id: EVENT_DATA.length + 1,
+                title: document.getElementById('event-name').value,
+                location: document.getElementById('event-location').value,
+                date: document.getElementById('event-date').value,
+                capacity: parseInt(document.getElementById('event-capacity').value),
+                available: parseInt(document.getElementById('event-capacity').value),
+                price: parseFloat(document.getElementById('event-price').value),
+                type: document.getElementById('event-type').value,
+                category: 'fiesta',
+                description: document.getElementById('event-description').value,
+                image: document.getElementById('event-image').value || 
+                       'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80',
+                coordinates: [
+                    40.4168 + (Math.random() * 0.05 - 0.025),
+                    -3.7038 + (Math.random() * 0.05 - 0.025)
+                ]
+            };
+            
+            EVENT_DATA.unshift(newEvent);
+            appState.updateEvents([newEvent, ...appState.currentEvents]);
+            
+            form.reset();
+            updateFormPreview();
+            showNotification('¡Evento creado exitosamente!', 'success');
+            
+            // Center map on new event
+            appState.map.setView(newEvent.coordinates, 15);
+        }
+
+        function updateFormPreview() {
+            const elements = {
+                title: document.getElementById('event-name'),
+                location: document.getElementById('event-location'),
+                date: document.getElementById('event-date'),
+                description: document.getElementById('event-description'),
+                capacity: document.getElementById('event-capacity'),
+                price: document.getElementById('event-price'),
+                image: document.getElementById('event-image')
+            };
+            
+            document.getElementById('previewTitle').textContent = 
+                elements.title.value || 'Nombre de la fiesta';
+            document.getElementById('previewLocation').textContent = 
+                elements.location.value || 'Ubicación';
+            document.getElementById('previewDate').textContent = 
+                elements.date.value ? formatDate(elements.date.value) : 'Fecha';
+            document.getElementById('previewDescription').textContent = 
+                elements.description.value || 'Descripción del evento aparecerá aquí';
+            document.getElementById('previewPlaces').textContent = 
+                `${elements.capacity.value || '0'} plazas`;
+            document.getElementById('previewPrice').textContent = 
+                elements.price.value ? elements.price.value + '€' : '€';
+            document.getElementById('previewImage').src = 
+                elements.image.value || 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80';
+        }
+
+        // =============================================
+        // GLOBAL FUNCTIONS
+        // =============================================
+        window.showEventDetails = function(eventId) {
+            const event = EVENT_DATA.find(e => e.id === eventId);
+            if (!event) return;
+            
+            const message = `
+            ${event.title}
+            
+            📍 ${event.location}
+            📅 ${formatDate(event.date)}
+            👥 ${event.available} plazas disponibles
+            💰 ${event.price === 0 ? 'Gratis' : event.price + '€'}
+            
+            ${event.description}
+            
+            ¿Te gustaría unirte a este evento?
+            `;
+            
+            if (confirm(message)) {
+                showNotification('¡Te has unido al evento!', 'success');
+            }
+        };
+
+        window.toggleCategoryFilter = function(category) {
+            // This will be handled by the AppState instance
+        };
+
+        // =============================================
+        // INITIALIZATION
+        // =============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize app state
+            const appState = new AppState();
+            
+            // Initialize map
+            appState.map = initializeMap();
+            
+            // Initialize markers
+            appState.markers = renderMapMarkers(appState.currentEvents, [], appState.map);
+            
+            // Setup event listeners
+            setupEventListeners(appState);
+            
+            // Initial render
+            appState.renderAll();
+            updateFormPreview();
+        });
+    </script>
 </body>
 </html>
