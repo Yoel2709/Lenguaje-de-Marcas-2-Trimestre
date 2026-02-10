@@ -54,6 +54,24 @@
     <!-- Hero Section -->
     <section id="inicio" class="hero">
         <div class="container">
+            <!-- Upcoming Events Preview (moved here) -->
+            <div class="text-center mb-5 animate-fade-in">
+                <h2 class="section-title">Próximos <span class="text-primary">Eventos</span></h2>
+                <p class="section-subtitle">Descubre experiencias únicas organizadas por la comunidad</p>
+            </div>
+
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="today">Hoy</button>
+                <button class="filter-btn" data-filter="week">Esta semana</button>
+                <button class="filter-btn" data-filter="month">Este mes</button>
+                <button class="filter-btn" data-filter="year">Este año</button>
+            </div>
+
+            <div class="events-grid" id="eventsGrid">
+                <!-- Events will be loaded here -->
+            </div>
+
             <div class="hero-content animate-fade-in">
                 <h1 class="hero-title">Descubre FIESTAS <span class="text-warning">privadas</span> (cerca de ti)</h1>
                 <p class="hero-subtitle">Eventos exclusivos en casas, chalets y espacios únicos. Conoce gente, comparte experiencias y vive momentos inolvidables.</p>
@@ -103,27 +121,8 @@
         </div>
     </section>
 
-    <!-- Events Section -->
-    <section id="eventos" class="section">
-        <div class="container">
-            <div class="text-center mb-5 animate-fade-in">
-                <h2 class="section-title">Próximos <span class="text-primary">Eventos</span></h2>
-                <p class="section-subtitle">Descubre experiencias únicas organizadas por la comunidad</p>
-            </div>
-
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all">Todos</button>
-                <button class="filter-btn" data-filter="today">Hoy</button>
-                <button class="filter-btn" data-filter="week">Esta semana</button>
-                <button class="filter-btn" data-filter="month">Este mes</button>
-                <button class="filter-btn" data-filter="year">Este año</button>
-            </div>
-
-            <div class="events-grid" id="eventsGrid">
-                <!-- Events will be loaded here -->
-            </div>
-        </div>
-    </section>
+        <!-- Old Events Section (Hidden) -->
+            <section id="eventos"></section>
 
     <!-- Map Section -->
     <section id="mapa" class="section bg-light">
