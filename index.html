@@ -1,26 +1,26 @@
-+<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialLocal - Eventos Privados y Planes Sociales</title>
-    
+
     <!-- Dependencies -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossorigin=""/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/conference-call.png">
-    
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    </style>
-</head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
@@ -29,11 +29,11 @@
                 <i class="fas fa-users text-primary"></i>
                 <span>Social<span class="text-primary">Local</span></span>
             </a>
-            
+
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
             </button>
-            
+
             <ul class="nav-links" id="navLinks">
                 <li><a href="#inicio" class="nav-link active">Inicio</a></li>
                 <li><a href="#eventos" class="nav-link">Eventos</a></li>
@@ -41,7 +41,7 @@
                 <li><a href="#crear-evento" class="nav-link">Crear Evento</a></li>
                 <li><a href="#contacto" class="nav-link">Contacto</a></li>
             </ul>
-            
+
             <button class="btn btn-outline" id="loginBtn">
                 <i class="fas fa-user"></i> Iniciar Sesión
             </button>
@@ -74,10 +74,11 @@
 
             <div class="hero-content animate-fade-in">
                 <h1 class="hero-title">Descubre FIESTAS <span class="text-warning">privadas</span> (cerca de ti)</h1>
-                <p class="hero-subtitle">Eventos exclusivos en casas, chalets y espacios únicos. Conoce gente, comparte experiencias y vive momentos inolvidables.</p>
-                
-                <div class="hero-actions">
-                    <a href="#eventos" class="btn btn-light btn-lg">
+                <p class="hero-subtitle">Eventos exclusivos en casas, chalets y espacios únicos. Conoce gente, comparte
+                    experiencias y vive momentos inolvidables.</p>
+
+                <div class="hero-actions" id="eventos">
+                    <a href="#eventsGrid" class="btn btn-light btn-lg" id="explorar-eventos">
                         <i class="fas fa-calendar-alt"></i> Explorar Eventos
                     </a>
                     <a href="#crear-evento" class="btn btn-outline btn-lg">
@@ -94,12 +95,12 @@
                         <i class="fas fa-map-marker-alt"></i>
                         <input type="text" placeholder="¿Dónde buscas?" class="search-input" id="searchLocation">
                     </div>
-                    
+
                     <div class="search-field">
                         <i class="fas fa-calendar-alt"></i>
                         <input type="date" class="search-input" id="searchDate">
                     </div>
-                    
+
                     <div class="search-field">
                         <i class="fas fa-tag"></i>
                         <select class="search-select" id="searchType">
@@ -112,7 +113,7 @@
                             <option>Concierto Íntimo</option>
                         </select>
                     </div>
-                    
+
                     <button class="btn btn-primary" id="searchBtn">
                         <i class="fas fa-search"></i> Buscar
                     </button>
@@ -120,9 +121,6 @@
             </div>
         </div>
     </section>
-
-        <!-- Old Events Section (Hidden) -->
-            <section id="eventos"></section>
 
     <!-- Map Section -->
     <section id="mapa" class="section bg-light">
@@ -199,8 +197,8 @@
                                     <label for="event-name" class="form-label">
                                         <i class="fas fa-heading"></i> Nombre del Evento
                                     </label>
-                                    <input type="text" class="form-control" id="event-name" 
-                                           placeholder="Ej: Cena Temática Italiana" required>
+                                    <input type="text" class="form-control" id="event-name"
+                                        placeholder="Ej: Cena Temática Italiana" required>
                                 </div>
 
                                 <div class="form-group">
@@ -222,8 +220,8 @@
                                     <label for="event-location" class="form-label">
                                         <i class="fas fa-map-marker-alt"></i> Ubicación
                                     </label>
-                                    <input type="text" class="form-control" id="event-location" 
-                                           placeholder="Dirección o zona aproximada" required>
+                                    <input type="text" class="form-control" id="event-location"
+                                        placeholder="Dirección o zona aproximada" required>
                                 </div>
 
                                 <div class="form-group">
@@ -237,16 +235,16 @@
                                     <label for="event-capacity" class="form-label">
                                         <i class="fas fa-users"></i> Capacidad Máxima
                                     </label>
-                                    <input type="number" class="form-control" id="event-capacity" 
-                                           min="1" max="100" placeholder="Ej: 20" required>
+                                    <input type="number" class="form-control" id="event-capacity" min="1" max="100"
+                                        placeholder="Ej: 20" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="event-price" class="form-label">
                                         <i class="fas fa-euro-sign"></i> Precio por Persona
                                     </label>
-                                    <input type="number" class="form-control" id="event-price" 
-                                           placeholder="0 si es gratis" min="0" step="0.01" required>
+                                    <input type="number" class="form-control" id="event-price"
+                                        placeholder="0 si es gratis" min="0" step="0.01" required>
                                 </div>
                             </div>
 
@@ -254,21 +252,23 @@
                                 <label for="event-description" class="form-label">
                                     <i class="fas fa-align-left"></i> Descripción
                                 </label>
-                                <textarea class="form-control" id="event-description" rows="4" 
-                                          placeholder="Describe tu evento, ambiente, normas, qué incluye..." required></textarea>
+                                <textarea class="form-control" id="event-description" rows="4"
+                                    placeholder="Describe tu evento, ambiente, normas, qué incluye..."
+                                    required></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label for="event-image" class="form-label">
                                     <i class="fas fa-image"></i> Imagen del Evento (URL)
                                 </label>
-                                    <input type="url" class="form-control" id="event-image" 
-                                       placeholder="https://ejemplo.com/imagen-evento.jpg">
+                                <input type="url" class="form-control" id="event-image"
+                                    placeholder="https://ejemplo.com/imagen-evento.jpg">
                             </div>
 
                             <div class="form-note">
                                 <i class="fas fa-info-circle"></i>
-                                <div>Tu evento será revisado por nuestro equipo antes de ser publicado para garantizar la seguridad de todos los participantes.</div>
+                                <div>Tu evento será revisado por nuestro equipo antes de ser publicado para garantizar
+                                    la seguridad de todos los participantes.</div>
                             </div>
 
                             <div class="form-actions">
@@ -286,8 +286,8 @@
                 <div class="col-lg-5">
                     <div class="preview-card">
                         <div class="preview-image">
-                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80" 
-                                 alt="Vista previa del evento" id="previewImage">
+                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80"
+                                alt="Vista previa del evento" id="previewImage">
                         </div>
                         <div class="preview-content">
                             <h4 id="previewTitle" class="mb-3">Nombre de la fiesta</h4>
@@ -320,7 +320,8 @@
                         <i class="fas fa-users text-primary fs-3"></i>
                         <h4>Social<span class="text-primary">Local</span></h4>
                     </div>
-                    <p class="footer-description">Conectamos personas a través de experiencias únicas. Descubre planes sociales y eventos exclusivos cerca de ti.</p>
+                    <p class="footer-description">Conectamos personas a través de experiencias únicas. Descubre planes
+                        sociales y eventos exclusivos cerca de ti.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
@@ -358,13 +359,47 @@
         </div>
     </footer>
 
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5 pt-0">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-circle text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h3 class="fw-bold mb-0">Iniciar Sesión</h3>
+                        <p class="text-muted small">Bienvenido de nuevo a SocialLocal</p>
+                    </div>
+                    <form id="loginForm">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control rounded-3" id="loginEmail"
+                                placeholder="name@example.com" required>
+                            <label for="loginEmail">Correo electrónico</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control rounded-3" id="loginPass"
+                                placeholder="Contraseña" required>
+                            <label for="loginPass">Contraseña</label>
+                        </div>
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
+                        <hr class="my-4">
+                        <p class="text-center text-muted small">¿No tienes cuenta? <a href="#"
+                                class="text-primary fw-bold text-decoration-none">Regístrate</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""></script>
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <!-- Custom Script -->
     <script src="script.js"></script>
 </body>
+
 </html>
