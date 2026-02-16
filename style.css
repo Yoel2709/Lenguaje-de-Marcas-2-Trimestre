@@ -1,5 +1,6 @@
 /* =============================================
    VARIABLES GLOBALES
+   no se ha optimizado el css, se ha dejado con variables globales para facilitar su mantenimiento y escalabilidad
    ============================================= */
 :root {
     /* Colors */
