@@ -1,6 +1,3 @@
-/* =============================================
-   VARIABLES & THEME
-   ============================================= */
 :root {
     --primary: #7c3aed;
     --primary-dark: #5b21b6;
@@ -19,16 +16,10 @@
 body {
     font-family: 'Inter', 'Poppins', sans-serif;
     background-color: #27ca6ba6;
-    /* ocre preserved */
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
 }
 
-/* =============================================
-   CUSTOM COMPONENTS
-   ============================================= */
-
-/* Navbar Tweaks */
 .navbar {
     transition: all var(--transition);
 }
@@ -45,7 +36,6 @@ body {
     background-color: rgba(124, 58, 237, 0.1);
 }
 
-/* Hero Section Specifics */
 .hero {
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
 }
@@ -63,7 +53,6 @@ body {
     color: transparent !important;
 }
 
-/* Filter Buttons */
 .filter-btn {
     border-radius: 50px !important;
     border: 2px solid #e5e7eb !important;
@@ -84,7 +73,6 @@ body {
     border-color: var(--primary) !important;
 }
 
-/* Event Cards Customization */
 .event-card {
     transition: all var(--transition);
 }
@@ -142,7 +130,6 @@ body {
     background: #6366f1;
 }
 
-/* Map legend */
 .legend-item {
     display: flex;
     align-items: center;
@@ -164,7 +151,6 @@ body {
     border-radius: 50%;
 }
 
-/* Custom Marker */
 .custom-marker {
     background: white;
     border-radius: 50%;
@@ -194,7 +180,6 @@ body {
     color: white;
 }
 
-/* Footer Credits & Links */
 footer .text-muted {
     color: rgba(255, 255, 255, 0.6) !important;
 }
@@ -212,9 +197,6 @@ footer a.text-muted:hover {
     padding-left: 5px;
 }
 
-/* =============================================
-   NOTIFICATIONS
-   ============================================= */
 .notification {
     padding: 1rem 2rem;
     background: var(--primary);
@@ -239,9 +221,6 @@ footer a.text-muted:hover {
     background: var(--danger);
 }
 
-/* =============================================
-   ANIMATIONS
-   ============================================= */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -272,7 +251,6 @@ footer a.text-muted:hover {
     animation: fadeInUp 0.5s ease-out forwards;
 }
 
-/* Responsive fixes */
 @media (max-width: 991px) {
     .navbar-collapse {
         background: white;

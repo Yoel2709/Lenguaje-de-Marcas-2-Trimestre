@@ -1,6 +1,3 @@
-// =============================================
-// DATA & CONFIGURATION
-// =============================================
 const EVENT_DATA = [
     {
         id: 1,
@@ -100,9 +97,6 @@ const CATEGORY_CONFIG = {
 const DEFAULT_MAP_CENTER = [40.4168, -3.7038];
 const DEFAULT_ZOOM = 13;
 
-// =============================================
-// UTILITY FUNCTIONS
-// =============================================
 function formatDate(dateString) {
     try {
         const date = new Date(dateString);
@@ -157,9 +151,6 @@ function isValidUrl(url) {
     }
 }
 
-// =============================================
-// STATE MANAGEMENT CLASS
-// =============================================
 class AppState {
     constructor() {
         this.currentEvents = [...EVENT_DATA];
@@ -392,9 +383,6 @@ class AppState {
     }
 }
 
-// =============================================
-// EVENT HANDLERS CLASS
-// =============================================
 class EventHandlers {
     constructor(appState) {
         this.appState = appState;
@@ -423,11 +411,9 @@ class EventHandlers {
                 if (target) {
                     e.preventDefault();
 
-                    // Update active state
                     document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
                     this.classList.add('active');
 
-                    // Scroll
                     const headerOffset = 80;
                     const elementPosition = target.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -437,7 +423,6 @@ class EventHandlers {
                         behavior: 'smooth'
                     });
 
-                    // Close mobile menu if open
                     const bsCollapse = bootstrap.Collapse.getInstance(document.getElementById('navContent'));
                     if (bsCollapse) bsCollapse.hide();
                 }
@@ -654,9 +639,6 @@ class EventHandlers {
     }
 }
 
-// =============================================
-// INITIALIZATION
-// =============================================
 function initializeMap(appState) {
     const mapContainer = document.getElementById('mapContainer');
     if (!mapContainer) return null;
