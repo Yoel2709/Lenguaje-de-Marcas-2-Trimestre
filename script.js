@@ -250,33 +250,35 @@ class AppState {
         if (!container) return;
 
         container.innerHTML = this.currentEvents.map(event => `
-            <div class="event-card animate-fade-in">
-                <div class="event-image">
-                    <img src="${event.image}" alt="${event.title}" loading="lazy">
-                    <span class="event-badge badge-${event.category}">${event.type}</span>
-                </div>
-                <div class="event-content">
-                    <h3 class="event-title">${event.title}</h3>
-                    <div class="event-meta">
-                        <div class="meta-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>${event.location}</span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>${formatDate(event.date)}</span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="fas fa-users"></i>
-                            <span>${event.available} plazas</span>
-                        </div>
+            <div class="col-md-6 col-lg-4 animate-fade-in-up">
+                <div class="card event-card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="event-image position-relative">
+                        <img src="${event.image}" class="card-img-top w-100 h-100" style="object-fit: cover;" alt="${event.title}" loading="lazy">
+                        <span class="event-badge badge-${event.category}">${event.type}</span>
                     </div>
-                    <p class="event-description">${event.description}</p>
-                    <div class="event-footer">
-                        <span class="event-price">${event.price === 0 ? 'Gratis' : event.price + '€'}</span>
-                        <button class="btn btn-primary btn-sm" onclick="window.app.showEventDetails(${event.id})">
-                            Ver Detalles
-                        </button>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h3 class="h5 fw-bold mb-3 card-title">${event.title}</h3>
+                        <div class="d-flex flex-column gap-2 mb-4">
+                            <div class="small text-muted">
+                                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                <span>${event.location}</span>
+                            </div>
+                            <div class="small text-muted">
+                                <i class="fas fa-calendar-alt text-primary me-2"></i>
+                                <span>${formatDate(event.date)}</span>
+                            </div>
+                            <div class="small text-muted">
+                                <i class="fas fa-users text-primary me-2"></i>
+                                <span>${event.available} plazas</span>
+                            </div>
+                        </div>
+                        <p class="card-text text-muted mb-4 flex-grow-1" style="font-size: 0.9rem;">${event.description}</p>
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                            <span class="h4 fw-bold text-primary mb-0">${event.price === 0 ? 'Gratis' : event.price + '€'}</span>
+                            <button class="btn btn-primary rounded-pill px-4" onclick="window.app.showEventDetails(${event.id})">
+                                Ver Detalles
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -301,7 +303,7 @@ class AppState {
             }
         });
 
-        if (this.markers.length > 0) {
+        if (this.markers.length > 0 && this.markers.length < EVENT_DATA.length) {
             const group = L.featureGroup(this.markers);
             this.map.fitBounds(group.getBounds().pad(0.1));
         }
@@ -310,7 +312,7 @@ class AppState {
     createMarkerIcon(category) {
         const config = CATEGORY_CONFIG[category];
         return L.divIcon({
-            html: `<div class="custom-marker" style="border-color: ${config.color};">
+            html: `<div class="custom-marker" style="border-color: ${config.color}; color: ${config.color};">
                       <i class="fas ${config.icon}"></i>
                    </div>`,
             className: 'custom-div-icon',
@@ -322,22 +324,13 @@ class AppState {
 
     createPopupContent(event) {
         return `
-            <div style="min-width: 250px; padding: 10px;">
-                <h4 style="margin: 0 0 10px 0; color: var(--dark);">${event.title}</h4>
-                <p style="margin: 0 0 5px 0; color: var(--gray);">
-                    <i class="fas fa-map-marker-alt"></i> ${event.location}
-                </p>
-                <p style="margin: 0 0 5px 0; color: var(--gray);">
-                    <i class="fas fa-calendar-alt"></i> ${formatDate(event.date)}
-                </p>
-                <p style="margin: 0 0 10px 0; color: var(--gray);">
-                    <i class="fas fa-users"></i> ${event.available} plazas
-                </p>
-                <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary); margin-bottom: 10px;">
-                    ${event.price === 0 ? 'Gratis' : event.price + '€'}
-                </div>
+            <div class="p-2" style="min-width: 220px;">
+                <h5 class="fw-bold mb-2">${event.title}</h5>
+                <div class="small text-muted mb-1"><i class="fas fa-map-marker-alt text-primary me-2"></i> ${event.location}</div>
+                <div class="small text-muted mb-1"><i class="fas fa-calendar-alt text-primary me-2"></i> ${formatDate(event.date)}</div>
+                <div class="h5 fw-bold text-primary my-2">${event.price === 0 ? 'Gratis' : event.price + '€'}</div>
                 <button onclick="window.app.showEventDetails(${event.id})" 
-                        style="width: 100%; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        class="btn btn-primary btn-sm w-100 rounded-pill mt-2">
                     Ver Detalles
                 </button>
             </div>
@@ -352,16 +345,15 @@ class AppState {
         container.innerHTML = categories.map(category => {
             const config = CATEGORY_CONFIG[category];
             const count = this.currentEvents.filter(e => e.category === category).length;
-            const isActive = this.activeFilters.category.includes(category) ||
-                this.activeFilters.category.length === 0;
+            const isActive = this.activeFilters.category.includes(category);
 
             return `
-                <div class="legend-item ${isActive ? 'active' : ''}" 
+                <div class="legend-item shadow-none border ${isActive ? 'active bg-light border-primary' : 'bg-white'}" 
                      data-category="${category}"
                      onclick="window.app.toggleCategoryFilter('${category}')">
                     <span class="legend-color" style="background: ${config.color}"></span>
-                    <span>${config.name}</span>
-                    <span class="legend-count">(${count})</span>
+                    <span class="flex-grow-1 small">${config.name}</span>
+                    <span class="text-muted small">(${count})</span>
                 </div>
             `;
         }).join('');
@@ -418,64 +410,60 @@ class EventHandlers {
     }
 
     setupNavigation() {
-        document.getElementById('mobileMenuBtn').addEventListener('click', this.toggleMobileMenu);
         this.setupSmoothScroll();
-
-        document.addEventListener('click', (e) => {
-            const navContainer = document.querySelector('.nav-container');
-            const menuBtn = document.getElementById('mobileMenuBtn');
-
-            if (navContainer.classList.contains('active') &&
-                !e.target.closest('.nav-container') &&
-                !e.target.closest('.mobile-menu-btn')) {
-                navContainer.classList.remove('active');
-            }
-        });
-    }
-
-    toggleMobileMenu() {
-        document.querySelector('.nav-container').classList.toggle('active');
     }
 
     setupSmoothScroll() {
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-
                 const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
+                if (targetId === '#' || !targetId.startsWith('#')) return;
 
                 const target = document.querySelector(targetId);
                 if (target) {
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active');
-                    });
+                    e.preventDefault();
+
+                    // Update active state
+                    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
                     this.classList.add('active');
 
+                    // Scroll
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
                     window.scrollTo({
-                        top: target.offsetTop - 80,
+                        top: offsetPosition,
                         behavior: 'smooth'
                     });
 
-                    document.querySelector('.nav-container').classList.remove('active');
+                    // Close mobile menu if open
+                    const bsCollapse = bootstrap.Collapse.getInstance(document.getElementById('navContent'));
+                    if (bsCollapse) bsCollapse.hide();
                 }
             });
         });
     }
 
     setupSearch() {
-        document.getElementById('searchBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            this.handleSearch();
+        const searchBtn = document.getElementById('searchBtn');
+        if (searchBtn) {
+            searchBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleSearch();
+            });
+        }
+
+        ['searchLocation', 'mapSearch'].forEach(id => {
+            document.getElementById(id)?.addEventListener('input', this.debouncedSearch);
         });
 
-        document.getElementById('searchLocation').addEventListener('input', this.debouncedSearch);
-        document.getElementById('searchDate').addEventListener('change', this.debouncedSearch);
-        document.getElementById('searchType').addEventListener('change', this.debouncedSearch);
+        document.getElementById('searchDate')?.addEventListener('change', this.debouncedSearch);
+        document.getElementById('searchType')?.addEventListener('change', this.debouncedSearch);
 
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const filter = e.target.dataset.filter;
+                const filter = e.currentTarget.dataset.filter;
                 this.handleDateFilter(filter);
             });
         });
@@ -490,7 +478,8 @@ class EventHandlers {
 
         if (location) {
             filtered = filtered.filter(event =>
-                event.location.toLowerCase().includes(location.toLowerCase())
+                event.location.toLowerCase().includes(location.toLowerCase()) ||
+                event.title.toLowerCase().includes(location.toLowerCase())
             );
         }
 
@@ -507,7 +496,7 @@ class EventHandlers {
         }
 
         this.appState.updateEvents(filtered);
-        showNotification('Búsqueda realizada', 'success');
+        showNotification('Búsqueda actualizada', 'success');
     }
 
     handleDateFilter(filter) {
@@ -518,48 +507,27 @@ class EventHandlers {
     setupMapControls() {
         if (!this.appState.map) return;
 
-        document.getElementById('zoomIn').addEventListener('click', () => {
-            this.appState.map.zoomIn();
-            showNotification('Zoom ampliado', 'info');
-        });
-
-        document.getElementById('zoomOut').addEventListener('click', () => {
-            this.appState.map.zoomOut();
-            showNotification('Zoom reducido', 'info');
-        });
-
-        document.getElementById('locationBtn').addEventListener('click', () => {
-            this.locateUser();
-        });
-
-        document.getElementById('resetViewBtn').addEventListener('click', () => {
+        document.getElementById('zoomIn')?.addEventListener('click', () => this.appState.map.zoomIn());
+        document.getElementById('zoomOut')?.addEventListener('click', () => this.appState.map.zoomOut());
+        document.getElementById('locationBtn')?.addEventListener('click', () => this.locateUser());
+        document.getElementById('resetViewBtn')?.addEventListener('click', () => {
             this.appState.map.setView(DEFAULT_MAP_CENTER, DEFAULT_ZOOM);
             showNotification('Vista restablecida', 'info');
         });
 
-        document.getElementById('mapSearch').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                this.searchLocation(e.target.value);
-            }
-        });
-
-        document.getElementById('clearFilters').addEventListener('click', () => {
-            this.appState.clearFilters();
-        });
-
-        document.getElementById('showAllMarkers').addEventListener('click', () => {
+        document.getElementById('clearFilters')?.addEventListener('click', () => this.appState.clearFilters());
+        document.getElementById('showAllMarkers')?.addEventListener('click', () => {
             if (this.appState.markers.length > 0) {
                 const group = L.featureGroup(this.appState.markers);
                 this.appState.map.fitBounds(group.getBounds().pad(0.1));
-                showNotification('Mostrando todos los eventos', 'info');
+                showNotification('Mostrando todos', 'info');
             }
         });
     }
 
     locateUser() {
         if (!navigator.geolocation) {
-            showNotification('Tu navegador no soporta geolocalización', 'error');
+            showNotification('Geolocalización no soportada', 'error');
             return;
         }
 
@@ -567,23 +535,10 @@ class EventHandlers {
             (position) => {
                 const { latitude, longitude } = position.coords;
                 this.appState.map.setView([latitude, longitude], 15);
-
-                L.marker([latitude, longitude], {
-                    icon: L.divIcon({
-                        html: '<div class="custom-marker" style="border-color: var(--primary); background: var(--primary); color: white;"><i class="fas fa-user"></i></div>',
-                        className: 'custom-div-icon',
-                        iconSize: [40, 40]
-                    })
-                })
-                    .addTo(this.appState.map)
-                    .bindPopup('¡Estás aquí!')
-                    .openPopup();
-
+                L.marker([latitude, longitude]).addTo(this.appState.map).bindPopup('¡Estás aquí!').openPopup();
                 showNotification('Ubicación encontrada', 'success');
             },
-            (error) => {
-                showNotification('No se pudo obtener tu ubicación', 'error');
-            }
+            () => showNotification('No se pudo obtener la ubicación', 'error')
         );
     }
 
@@ -623,63 +578,35 @@ class EventHandlers {
             this.handleCreateEvent();
         });
 
-        document.getElementById('resetForm').addEventListener('click', () => {
-            setTimeout(this.updateFormPreview.bind(this), 100);
+        document.getElementById('resetForm')?.addEventListener('click', () => {
+            setTimeout(() => this.updateFormPreview(), 100);
         });
 
-        const formInputs = ['event-name', 'event-location', 'event-date',
-            'event-description', 'event-capacity', 'event-price', 'event-image'];
-        formInputs.forEach(id => {
-            document.getElementById(id).addEventListener('input',
-                debounce(this.updateFormPreview.bind(this), 300)
-            );
-        });
-
-        document.getElementById('event-type').addEventListener('change',
-            debounce(this.updateFormPreview.bind(this), 300)
-        );
+        ['event-name', 'event-location', 'event-date', 'event-description',
+            'event-capacity', 'event-price', 'event-image', 'event-type'].forEach(id => {
+                document.getElementById(id)?.addEventListener('input', () => this.updateFormPreview());
+            });
     }
 
     handleCreateEvent() {
         const form = document.getElementById('eventForm');
-
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
 
-        const name = document.getElementById('event-name').value.trim();
-        const location = document.getElementById('event-location').value.trim();
-        const date = document.getElementById('event-date').value;
-        const capacity = parseInt(document.getElementById('event-capacity').value);
-        const price = parseFloat(document.getElementById('event-price').value);
-        const type = document.getElementById('event-type').value;
-        const description = document.getElementById('event-description').value.trim();
-        const imageUrl = document.getElementById('event-image').value.trim();
-
-        if (imageUrl && !isValidUrl(imageUrl)) {
-            showNotification('Por favor, introduce una URL válida para la imagen', 'error');
-            return;
-        }
-
-        const eventDate = new Date(date);
-        if (eventDate < new Date()) {
-            showNotification('La fecha del evento debe ser futura', 'error');
-            return;
-        }
-
         const newEvent = {
             id: EVENT_DATA.length + 1,
-            title: name,
-            location: location,
-            date: date,
-            capacity: capacity,
-            available: capacity,
-            price: price,
-            type: type,
+            title: document.getElementById('event-name').value,
+            location: document.getElementById('event-location').value,
+            date: document.getElementById('event-date').value,
+            capacity: parseInt(document.getElementById('event-capacity').value),
+            available: parseInt(document.getElementById('event-capacity').value),
+            price: parseFloat(document.getElementById('event-price').value),
+            type: document.getElementById('event-type').value,
             category: 'fiesta',
-            description: description,
-            image: imageUrl || 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80',
+            description: document.getElementById('event-description').value,
+            image: document.getElementById('event-image').value || 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80',
             coordinates: [
                 DEFAULT_MAP_CENTER[0] + (Math.random() * 0.05 - 0.025),
                 DEFAULT_MAP_CENTER[1] + (Math.random() * 0.05 - 0.025)
@@ -687,36 +614,25 @@ class EventHandlers {
         };
 
         EVENT_DATA.unshift(newEvent);
-        this.appState.updateEvents([newEvent, ...this.appState.currentEvents]);
-
+        this.appState.updateEvents(EVENT_DATA);
         form.reset();
         this.updateFormPreview();
-        showNotification('¡Evento creado exitosamente!', 'success');
-
-        this.appState.map.setView(newEvent.coordinates, 15);
+        showNotification('¡Evento creado!', 'success');
+        location.hash = 'eventos-seccion';
     }
 
     updateFormPreview() {
         const getValue = (id) => document.getElementById(id)?.value || '';
 
-        const previewData = {
-            title: getValue('event-name') || 'Nombre de la fiesta',
-            location: getValue('event-location') || 'Ubicación',
-            date: getValue('event-date'),
-            description: getValue('event-description') || 'Descripción del evento aparecerá aquí',
-            capacity: getValue('event-capacity') || '0',
-            price: getValue('event-price') || '0',
-            image: getValue('event-image') || 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80'
-        };
-
-        document.getElementById('previewTitle').textContent = previewData.title;
-        document.getElementById('previewLocation').textContent = previewData.location;
-        document.getElementById('previewDate').textContent = previewData.date ? formatDate(previewData.date) : 'Fecha';
-        document.getElementById('previewDescription').textContent = previewData.description;
-        document.getElementById('previewPlaces').textContent = `${previewData.capacity} plazas`;
-        document.getElementById('previewPrice').textContent =
-            previewData.price === '0' ? 'Gratis' : `${previewData.price}€`;
-        document.getElementById('previewImage').src = previewData.image;
+        document.getElementById('previewTitle').textContent = getValue('event-name') || 'Nombre de la fiesta';
+        document.getElementById('previewLocation').textContent = getValue('event-location') || 'Ubicación';
+        const date = getValue('event-date');
+        document.getElementById('previewDate').textContent = date ? formatDate(date) : 'Fecha';
+        document.getElementById('previewDescription').textContent = getValue('event-description') || 'Descripción del evento';
+        document.getElementById('previewPlaces').textContent = `${getValue('event-capacity') || 0} plazas`;
+        const price = getValue('event-price');
+        document.getElementById('previewPrice').textContent = price === '0' || !price ? 'Gratis' : `${price}€`;
+        document.getElementById('previewImage').src = getValue('event-image') || 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80';
     }
 
     setupMiscListeners() {
@@ -725,82 +641,51 @@ class EventHandlers {
             const loginModal = new bootstrap.Modal(modalEl);
             document.getElementById('loginBtn').onclick = () => loginModal.show();
 
-            const loginForm = document.getElementById('loginForm');
-            if (loginForm) {
-                loginForm.onsubmit = (e) => {
-                    e.preventDefault();
-                    showNotification('Sesión iniciada correctamente', 'success');
-                    loginModal.hide();
-                    loginForm.reset();
-                };
-            }
+            document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showNotification('Sesión iniciada', 'success');
+                loginModal.hide();
+            });
         }
 
         window.addEventListener('resize', debounce(() => {
-            if (this.appState.map) {
-                this.appState.map.invalidateSize();
-            }
+            if (this.appState.map) this.appState.map.invalidateSize();
         }, 250));
     }
 }
 
 // =============================================
-// MAP INITIALIZATION
+// INITIALIZATION
 // =============================================
 function initializeMap(appState) {
     const mapContainer = document.getElementById('mapContainer');
     if (!mapContainer) return null;
 
-    try {
-        const map = L.map('mapContainer').setView(DEFAULT_MAP_CENTER, DEFAULT_ZOOM);
+    const map = L.map('mapContainer', { zoomControl: false }).setView(DEFAULT_MAP_CENTER, DEFAULT_ZOOM);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            maxZoom: 19,
-            detectRetina: true
-        }).addTo(map);
-
-        appState.mapInitialized = true;
-        return map;
-    } catch (error) {
-        console.error('Error initializing map:', error);
-        showNotification('Error al cargar el mapa', 'error');
-        return null;
-    }
+    appState.mapInitialized = true;
+    return map;
 }
 
-// =============================================
-// APPLICATION INITIALIZATION
-// =============================================
 function initializeApp() {
-    try {
-        const appState = new AppState();
-        window.app = appState;
+    const appState = new AppState();
+    window.app = appState;
+    appState.map = initializeMap(appState);
+    const handlers = new EventHandlers(appState);
+    handlers.setup();
+    appState.renderAll();
+    handlers.updateFormPreview();
 
-        appState.map = initializeMap(appState);
-
-        const eventHandlers = new EventHandlers(appState);
-        eventHandlers.setup();
-
-        appState.renderAll();
-        eventHandlers.updateFormPreview();
-
-        setTimeout(() => {
-            showNotification('¡Bienvenido a SocialLocal!', 'info');
-        }, 1000);
-
-    } catch (error) {
-        console.error('Error initializing app:', error);
-        showNotification('Error al inicializar la aplicación', 'error');
-    }
+    setTimeout(() => showNotification('¡Bienvenido!', 'info'), 500);
 }
 
-// =============================================
-// START APPLICATION
-// =============================================
+document.addEventListener('DOMContentLoaded', initializeApp);
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeApp);
 } else {
     initializeApp();
 }
-

@@ -21,158 +21,182 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body data-bs-spy="scroll" data-bs-target="#navbarMain" data-bs-offset="100">
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="#inicio" class="logo">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3" id="navbarMain">
+        <div class="container">
+            <a href="#inicio" class="navbar-brand d-flex align-items-center gap-2 fw-bold fs-4">
                 <i class="fas fa-users text-primary"></i>
                 <span>Social<span class="text-primary">Local</span></span>
             </a>
 
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent"
+                aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
 
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#inicio" class="nav-link active">Inicio</a></li>
-                <li><a href="#eventos" class="nav-link">Eventos</a></li>
-                <li><a href="#mapa" class="nav-link">Mapa</a></li>
-                <li><a href="#crear-evento" class="nav-link">Crear Evento</a></li>
-                <li><a href="#contacto" class="nav-link">Contacto</a></li>
-            </ul>
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
+                    <li class="nav-item"><a href="#inicio" class="nav-link active">Inicio</a></li>
+                    <li class="nav-item"><a href="#eventos-seccion" class="nav-link">Eventos</a></li>
+                    <li class="nav-item"><a href="#mapa" class="nav-link">Mapa</a></li>
+                    <li class="nav-item"><a href="#crear-evento" class="nav-link">Crear Evento</a></li>
+                    <li class="nav-item"><a href="#contacto" class="nav-link">Contacto</a></li>
+                </ul>
 
-            <button class="btn btn-outline" id="loginBtn">
-                <i class="fas fa-user"></i> Iniciar Sesión
-            </button>
+                <button class="btn btn-primary rounded-pill px-4" id="loginBtn">
+                    <i class="fas fa-user me-2"></i> Iniciar Sesión
+                </button>
+            </div>
         </div>
     </nav>
 
     <!-- Notification -->
-    <div class="notification" id="notification"></div>
+    <div class="notification-container position-fixed top-0 start-50 translate-middle-x mt-4 z-3"
+        style="z-index: 1060;">
+        <div class="notification" id="notification"></div>
+    </div>
 
     <!-- Hero Section -->
-    <section id="inicio" class="hero">
+    <section id="inicio" class="hero bg-light py-5 overflow-hidden position-relative">
         <div class="container">
-            <!-- Upcoming Events Preview (moved here) -->
-            <div class="text-center mb-5 animate-fade-in">
-                <h2 class="section-title">Próximos <span class="text-primary">Eventos</span></h2>
-                <p class="section-subtitle">Descubre experiencias únicas organizadas por la comunidad</p>
+            <!-- Upcoming Events Section Title -->
+            <div id="eventos-seccion" class="text-center mb-5 animate-fade-in pt-5">
+                <h2 class="section-title fw-bold">Próximos <span class="text-primary">Eventos</span></h2>
+                <p class="text-muted lead mx-auto" style="max-width: 600px;">Descubre experiencias únicas organizadas
+                    por la comunidad</p>
             </div>
 
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all">Todos</button>
-                <button class="filter-btn" data-filter="today">Hoy</button>
-                <button class="filter-btn" data-filter="week">Esta semana</button>
-                <button class="filter-btn" data-filter="month">Este mes</button>
-                <button class="filter-btn" data-filter="year">Este año</button>
+            <!-- Custom Filters -->
+            <div class="filters d-flex flex-wrap justify-content-center gap-2 mb-5 animate-fade-in">
+                <button class="filter-btn btn active" data-filter="all">Todos</button>
+                <button class="filter-btn btn" data-filter="today">Hoy</button>
+                <button class="filter-btn btn" data-filter="week">Esta semana</button>
+                <button class="filter-btn btn" data-filter="month">Este mes</button>
+                <button class="filter-btn btn" data-filter="year">Este año</button>
             </div>
 
-            <div class="events-grid" id="eventsGrid">
+            <div class="row g-4 mb-5" id="eventsGrid">
                 <!-- Events will be loaded here -->
             </div>
 
-            <div class="hero-content animate-fade-in">
-                <h1 class="hero-title">Descubre FIESTAS <span class="text-warning">privadas</span> (cerca de ti)</h1>
-                <p class="hero-subtitle">Eventos exclusivos en casas, chalets y espacios únicos. Conoce gente, comparte
-                    experiencias y vive momentos inolvidables.</p>
+            <div class="hero-content text-center py-5 animate-fade-in">
+                <h1 class="hero-title display-3 fw-bold mb-4">Descubre FIESTAS <span
+                        class="text-warning">privadas</span> (cerca de ti)</h1>
+                <p class="hero-subtitle text-muted lead mx-auto mb-5" style="max-width: 800px;">
+                    Eventos exclusivos en casas, chalets y espacios únicos. Conoce gente, comparte experiencias y vive
+                    momentos inolvidables.
+                </p>
 
-                <div class="hero-actions" id="eventos">
-                    <a href="#eventsGrid" class="btn btn-light btn-lg" id="explorar-eventos">
-                        <i class="fas fa-calendar-alt"></i> Explorar Eventos
+                <div class="hero-actions d-flex flex-wrap justify-content-center gap-3 mb-5" id="eventos">
+                    <a href="#eventos-seccion" class="btn btn-light btn-lg shadow-sm px-4 py-3">
+                        <i class="fas fa-calendar-alt me-2"></i> Explorar Eventos
                     </a>
-                    <a href="#crear-evento" class="btn btn-outline btn-lg">
-                        <i class="fas fa-plus-circle"></i> Crear Evento
+                    <a href="#crear-evento" class="btn btn-outline-primary btn-lg px-4 py-3">
+                        <i class="fas fa-plus-circle me-2"></i> Crear Evento
                     </a>
                 </div>
             </div>
 
             <!-- Search -->
-            <div class="search-card animate-fade-in">
-                <h3 class="text-center mb-4">Encuentra tu próximo plan</h3>
-                <div class="search-grid">
-                    <div class="search-field">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <input type="text" placeholder="¿Dónde buscas?" class="search-input" id="searchLocation">
+            <div class="search-card bg-white rounded-4 shadow-lg p-4 p-md-5 mx-auto animate-fade-in"
+                style="max-width: 900px;">
+                <h3 class="text-center mb-4 fw-bold">Encuentra tu próximo plan</h3>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="input-group input-group-lg bg-light border-0 rounded-3">
+                            <span class="input-group-text bg-transparent border-0"><i
+                                    class="fas fa-map-marker-alt text-muted"></i></span>
+                            <input type="text" placeholder="¿Dónde buscas?" class="form-control bg-transparent border-0"
+                                id="searchLocation">
+                        </div>
                     </div>
 
-                    <div class="search-field">
-                        <i class="fas fa-calendar-alt"></i>
-                        <input type="date" class="search-input" id="searchDate">
+                    <div class="col-md-3">
+                        <div class="input-group input-group-lg bg-light border-0 rounded-3">
+                            <span class="input-group-text bg-transparent border-0"><i
+                                    class="fas fa-calendar-alt text-muted"></i></span>
+                            <input type="date" class="form-control bg-transparent border-0" id="searchDate">
+                        </div>
                     </div>
 
-                    <div class="search-field">
-                        <i class="fas fa-tag"></i>
-                        <select class="search-select" id="searchType">
-                            <option value="">Tipo de evento</option>
-                            <option>Fiesta en Casa</option>
-                            <option>Cena Privada</option>
-                            <option>Afterwork</option>
-                            <option>Juegos de Mesa</option>
-                            <option>Barbacoa</option>
-                            <option>Concierto Íntimo</option>
-                        </select>
+                    <div class="col-md-3">
+                        <div class="input-group input-group-lg bg-light border-0 rounded-3">
+                            <span class="input-group-text bg-transparent border-0"><i
+                                    class="fas fa-tag text-muted"></i></span>
+                            <select class="form-select bg-transparent border-0" id="searchType">
+                                <option value="">Tipo de evento</option>
+                                <option>Fiesta en Casa</option>
+                                <option>Cena Privada</option>
+                                <option>Afterwork</option>
+                                <option>Juegos de Mesa</option>
+                                <option>Barbacoa</option>
+                                <option>Concierto Íntimo</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <button class="btn btn-primary" id="searchBtn">
-                        <i class="fas fa-search"></i> Buscar
-                    </button>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-lg w-100 rounded-3" id="searchBtn">
+                            <i class="fas fa-search me-lg-2"></i><span class="d-none d-lg-inline">Buscar</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Map Section -->
-    <section id="mapa" class="section bg-light">
-        <div class="container">
+    <section id="mapa" class="py-5 bg-white">
+        <div class="container py-lg-5">
             <div class="text-center mb-5 animate-fade-in">
-                <h2 class="section-title">Eventos en el <span class="text-primary">Mapa</span></h2>
-                <p class="section-subtitle">Ubicaciones reales de los planes más interesantes de tu zona</p>
+                <h2 class="section-title fw-bold">Eventos en el <span class="text-primary">Mapa</span></h2>
+                <p class="text-muted lead">Ubicaciones reales de los planes más interesantes de tu zona</p>
             </div>
 
             <div class="row g-4">
                 <div class="col-lg-8">
-                    <div class="map-wrapper">
-                        <div class="map-header">
-                            <div class="map-controls">
-                                <div class="map-controls-group">
-                                    <button class="btn btn-outline" id="zoomIn" title="Ampliar">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                    <button class="btn btn-outline" id="zoomOut" title="Alejar">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button class="btn btn-outline" id="locationBtn" title="Mi ubicación">
-                                        <i class="fas fa-location-arrow"></i>
-                                    </button>
-                                    <button class="btn btn-outline" id="resetViewBtn" title="Vista inicial">
-                                        <i class="fas fa-home"></i>
-                                    </button>
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="card-header bg-white border-0 p-3">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                                <div class="btn-group shadow-sm">
+                                    <button class="btn btn-outline-light text-dark border" id="zoomIn"
+                                        title="Ampliar"><i class="fas fa-plus"></i></button>
+                                    <button class="btn btn-outline-light text-dark border" id="zoomOut"
+                                        title="Alejar"><i class="fas fa-minus"></i></button>
+                                    <button class="btn btn-outline-light text-dark border" id="locationBtn"
+                                        title="Mi ubicación"><i class="fas fa-location-arrow"></i></button>
+                                    <button class="btn btn-outline-light text-dark border" id="resetViewBtn"
+                                        title="Vista inicial"><i class="fas fa-home"></i></button>
                                 </div>
-                                <div class="search-field" style="flex: 1; max-width: 300px;">
-                                    <i class="fas fa-search"></i>
-                                    <input type="text" placeholder="Buscar ubicación..." id="mapSearch">
+                                <div class="input-group bg-light rounded-pill px-3 py-1" style="max-width: 300px;">
+                                    <span class="input-group-text bg-transparent border-0 p-0 me-2 text-muted"><i
+                                            class="fas fa-search"></i></span>
+                                    <input type="text" class="form-control bg-transparent border-0 p-0 shadow-none"
+                                        placeholder="Buscar ubicación..." id="mapSearch">
                                 </div>
                             </div>
                         </div>
-
-                        <div id="mapContainer"></div>
+                        <div id="mapContainer" style="height: 500px;"></div>
                     </div>
                 </div>
 
                 <div class="col-lg-4">
-                    <div class="map-legend">
-                        <h3 class="legend-title"><i class="fas fa-layer-group"></i> Categorías</h3>
-                        <div class="legend-items" id="legendItems">
-                            <!-- Legend will be loaded here -->
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-outline" id="clearFilters">
-                                <i class="fas fa-filter"></i> Limpiar Filtros
-                            </button>
-                            <button class="btn btn-outline" id="showAllMarkers">
-                                <i class="fas fa-eye"></i> Mostrar Todos
-                            </button>
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-body p-4">
+                            <h3 class="h5 fw-bold mb-4"><i class="fas fa-layer-group text-primary me-2"></i> Categorías
+                            </h3>
+                            <div class="legend-items d-flex flex-column gap-2 mb-4" id="legendItems">
+                                <!-- Legend will be loaded here -->
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-primary rounded-3" id="clearFilters">
+                                    <i class="fas fa-filter me-2"></i> Limpiar Filtros
+                                </button>
+                                <button class="btn btn-outline-primary rounded-3" id="showAllMarkers">
+                                    <i class="fas fa-eye me-2"></i> Mostrar Todos
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -181,128 +205,132 @@
     </section>
 
     <!-- Create Event Form -->
-    <section id="crear-evento" class="section">
-        <div class="container">
+    <section id="crear-evento" class="py-5 bg-light">
+        <div class="container py-lg-5">
             <div class="text-center mb-5 animate-fade-in">
-                <h2 class="section-title">Crea tu <span class="text-primary">Evento</span></h2>
-                <p class="section-subtitle">Comparte tu plan con la comunidad y conecta con personas afines</p>
+                <h2 class="section-title fw-bold">Crea tu <span class="text-primary">Evento</span></h2>
+                <p class="text-muted lead">Comparte tu plan con la comunidad y conecta con personas afines</p>
             </div>
 
-            <div class="row g-4">
+            <div class="row g-4 justify-content-center">
                 <div class="col-lg-7">
-                    <div class="form-container">
-                        <form id="eventForm">
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="event-name" class="form-label">
-                                        <i class="fas fa-heading"></i> Nombre del Evento
-                                    </label>
-                                    <input type="text" class="form-control" id="event-name"
-                                        placeholder="Ej: Cena Temática Italiana" required>
+                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                        <div class="card-body p-4 p-md-5">
+                            <form id="eventForm">
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-6">
+                                        <label for="event-name" class="form-label fw-semibold"><i
+                                                class="fas fa-heading text-primary me-2"></i> Nombre del Evento</label>
+                                        <input type="text" class="form-control form-control-lg rounded-3"
+                                            id="event-name" placeholder="Ej: Cena Temática Italiana" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="event-type" class="form-label fw-semibold"><i
+                                                class="fas fa-tag text-primary me-2"></i> Tipo de Evento</label>
+                                        <select class="form-select form-control-lg rounded-3" id="event-type" required>
+                                            <option value="">Selecciona un tipo</option>
+                                            <option>Fiesta en Casa</option>
+                                            <option>Cena Privada</option>
+                                            <option>Afterwork</option>
+                                            <option>Juegos de Mesa</option>
+                                            <option>Barbacoa</option>
+                                            <option>Concierto Íntimo</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="event-location" class="form-label fw-semibold"><i
+                                                class="fas fa-map-marker-alt text-primary me-2"></i> Ubicación</label>
+                                        <input type="text" class="form-control form-control-lg rounded-3"
+                                            id="event-location" placeholder="Dirección o zona aproximada" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="event-date" class="form-label fw-semibold"><i
+                                                class="fas fa-calendar-alt text-primary me-2"></i> Fecha y Hora</label>
+                                        <input type="datetime-local" class="form-control form-control-lg rounded-3"
+                                            id="event-date" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="event-capacity" class="form-label fw-semibold"><i
+                                                class="fas fa-users text-primary me-2"></i> Capacidad Máxima</label>
+                                        <input type="number" class="form-control form-control-lg rounded-3"
+                                            id="event-capacity" min="1" max="100" placeholder="Ej: 20" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="event-price" class="form-label fw-semibold"><i
+                                                class="fas fa-euro-sign text-primary me-2"></i> Precio por
+                                            Persona</label>
+                                        <input type="number" class="form-control form-control-lg rounded-3"
+                                            id="event-price" placeholder="0 si es gratis" min="0" step="0.01" required>
+                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="event-type" class="form-label">
-                                        <i class="fas fa-tag"></i> Tipo de Evento
-                                    </label>
-                                    <select class="form-control" id="event-type" required>
-                                        <option value="">Selecciona un tipo</option>
-                                        <option>Fiesta en Casa</option>
-                                        <option>Cena Privada</option>
-                                        <option>Afterwork</option>
-                                        <option>Juegos de Mesa</option>
-                                        <option>Barbacoa</option>
-                                        <option>Concierto Íntimo</option>
-                                    </select>
+                                <div class="mb-4">
+                                    <label for="event-description" class="form-label fw-semibold"><i
+                                            class="fas fa-align-left text-primary me-2"></i> Descripción</label>
+                                    <textarea class="form-control rounded-3" id="event-description" rows="4"
+                                        placeholder="Describe tu evento, ambiente, normas, qué incluye..."
+                                        required></textarea>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="event-location" class="form-label">
-                                        <i class="fas fa-map-marker-alt"></i> Ubicación
-                                    </label>
-                                    <input type="text" class="form-control" id="event-location"
-                                        placeholder="Dirección o zona aproximada" required>
+                                <div class="mb-4">
+                                    <label for="event-image" class="form-label fw-semibold"><i
+                                            class="fas fa-image text-primary me-2"></i> Imagen del Evento (URL)</label>
+                                    <input type="url" class="form-control rounded-3" id="event-image"
+                                        placeholder="https://ejemplo.com/imagen-evento.jpg">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="event-date" class="form-label">
-                                        <i class="fas fa-calendar-alt"></i> Fecha y Hora
-                                    </label>
-                                    <input type="datetime-local" class="form-control" id="event-date" required>
+                                <div class="alert alert-info border-0 rounded-3 d-flex align-items-center gap-3 mb-4">
+                                    <i class="fas fa-info-circle fs-4"></i>
+                                    <div class="small">Tu evento será revisado por nuestro equipo antes de ser publicado
+                                        para garantizar la seguridad de todos los participantes.</div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="event-capacity" class="form-label">
-                                        <i class="fas fa-users"></i> Capacidad Máxima
-                                    </label>
-                                    <input type="number" class="form-control" id="event-capacity" min="1" max="100"
-                                        placeholder="Ej: 20" required>
+                                <div class="d-flex gap-3 mt-5">
+                                    <button type="reset" class="btn btn-outline-secondary flex-grow-1 py-3 rounded-pill"
+                                        id="resetForm">
+                                        <i class="fas fa-redo me-2"></i> Limpiar
+                                    </button>
+                                    <button type="submit"
+                                        class="btn btn-primary flex-grow-2 py-3 px-5 rounded-pill shadow">
+                                        <i class="fas fa-paper-plane me-2"></i> Crear Evento
+                                    </button>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="event-price" class="form-label">
-                                        <i class="fas fa-euro-sign"></i> Precio por Persona
-                                    </label>
-                                    <input type="number" class="form-control" id="event-price"
-                                        placeholder="0 si es gratis" min="0" step="0.01" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="event-description" class="form-label">
-                                    <i class="fas fa-align-left"></i> Descripción
-                                </label>
-                                <textarea class="form-control" id="event-description" rows="4"
-                                    placeholder="Describe tu evento, ambiente, normas, qué incluye..."
-                                    required></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="event-image" class="form-label">
-                                    <i class="fas fa-image"></i> Imagen del Evento (URL)
-                                </label>
-                                <input type="url" class="form-control" id="event-image"
-                                    placeholder="https://ejemplo.com/imagen-evento.jpg">
-                            </div>
-
-                            <div class="form-note">
-                                <i class="fas fa-info-circle"></i>
-                                <div>Tu evento será revisado por nuestro equipo antes de ser publicado para garantizar
-                                    la seguridad de todos los participantes.</div>
-                            </div>
-
-                            <div class="form-actions">
-                                <button type="reset" class="btn btn-outline" id="resetForm">
-                                    <i class="fas fa-redo"></i> Limpiar Formulario
-                                </button>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-paper-plane"></i> Crear Evento
-                                </button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-lg-5">
-                    <div class="preview-card">
-                        <div class="preview-image">
-                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80"
-                                alt="Vista previa del evento" id="previewImage">
-                        </div>
-                        <div class="preview-content">
-                            <h4 id="previewTitle" class="mb-3">Nombre de la fiesta</h4>
-                            <div class="meta-item mb-2">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span id="previewLocation">Ubicación</span>
+                <div class="col-lg-4">
+                    <div class="sticky-top" style="top: 100px; z-index: 1010;">
+                        <h4 class="mb-4 text-center">Vista Previa</h4>
+                        <div class="card event-card border-0 shadow-lg rounded-4 overflow-hidden">
+                            <div class="position-relative">
+                                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80"
+                                    class="card-img-top" alt="Vista previa" id="previewImage"
+                                    style="height: 200px; object-fit: cover;">
                             </div>
-                            <div class="meta-item mb-3">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span id="previewDate">Fecha</span>
-                            </div>
-                            <p id="previewDescription" class="text-gray mb-3">Descripción del evento aparecerá aquí</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span id="previewPrice" class="event-price">€</span>
-                                <span id="previewPlaces" class="text-gray">0 plazas</span>
+                            <div class="card-body p-4">
+                                <h5 id="previewTitle" class="card-title fw-bold mb-3">Nombre de la fiesta</h5>
+                                <div class="d-flex flex-column gap-2 mb-3">
+                                    <div class="small text-muted"><i
+                                            class="fas fa-map-marker-alt text-primary me-2"></i> <span
+                                            id="previewLocation">Ubicación</span></div>
+                                    <div class="small text-muted"><i class="fas fa-calendar-alt text-primary me-2"></i>
+                                        <span id="previewDate">Fecha</span>
+                                    </div>
+                                </div>
+                                <p id="previewDescription" class="card-text text-muted mb-4">Descripción del evento
+                                    aparecerá aquí</p>
+                                <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                                    <span id="previewPrice" class="h4 fw-bold text-primary mb-0">€</span>
+                                    <span id="previewPlaces" class="badge bg-light text-dark fw-normal rounded-pill">0
+                                        plazas</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -312,49 +340,71 @@
     </section>
 
     <!-- Footer -->
-    <footer id="contacto" class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <div class="footer-logo">
+    <footer id="contacto" class="bg-dark text-white py-5">
+        <div class="container py-lg-4">
+            <div class="row g-5 justify-content-between">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-4">
                         <i class="fas fa-users text-primary fs-3"></i>
-                        <h4>Social<span class="text-primary">Local</span></h4>
+                        <h4 class="h3 fw-bold mb-0">Social<span class="text-primary">Local</span></h4>
                     </div>
-                    <p class="footer-description">Conectamos personas a través de experiencias únicas. Descubre planes
-                        sociales y eventos exclusivos cerca de ti.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <p class="text-muted mb-4 pe-lg-4" style="text-align: justify;">Conectamos personas a través de
+                        experiencias únicas. Descubre
+                        planes sociales y eventos exclusivos cerca de ti.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#"
+                            class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;"><i class="fab fa-twitter"></i></a>
+                        <a href="#"
+                            class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;"><i class="fab fa-instagram"></i></a>
+                        <a href="#"
+                            class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
 
-                <div>
-                    <h4 class="mb-3">Enlaces Rápidos</h4>
-                    <ul class="footer-links">
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#eventos">Eventos</a></li>
-                        <li><a href="#mapa">Mapa</a></li>
-                        <li><a href="#crear-evento">Crear Evento</a></li>
-                        <li><a href="#contacto">Contacto</a></li>
+                <div class="col-lg-4 col-md-3 col-6 text-lg-center">
+                    <h5 class="fw-bold mb-4">Empresa</h5>
+                    <ul class="list-unstyled d-flex flex-column gap-2 align-items-lg-center">
+                        <li><a href="#inicio" class="text-muted text-decoration-none hover-white">Inicio</a></li>
+                        <li><a href="#eventos-seccion" class="text-muted text-decoration-none hover-white">Eventos</a>
+                        </li>
+                        <li><a href="#mapa" class="text-muted text-decoration-none hover-white">Mapa</a></li>
+                        <li><a href="#crear-evento" class="text-muted text-decoration-none hover-white">Crear</a></li>
                     </ul>
                 </div>
 
-                <div>
-                    <h4 class="mb-3">Contacto</h4>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-envelope me-2"></i> info@sociallocal.com</li>
-                        <li><i class="fas fa-phone me-2"></i> +34 910 123 456</li>
-                        <li><i class="fas fa-map-marker-alt me-2"></i> Madrid, España</li>
-                        <li><i class="fas fa-clock me-2"></i> Soporte: 9:00 - 20:00</li>
+                <div class="col-lg-3 col-md-6 text-lg-end">
+                    <h5 class="fw-bold mb-4">Contacto</h5>
+                    <ul class="list-unstyled d-flex flex-column gap-3 align-items-lg-end">
+                        <li class="d-flex align-items-center gap-3 text-muted">
+                            <span>info@sociallocal.com</span>
+                            <i class="fas fa-envelope text-primary"></i>
+                        </li>
+                        <li class="d-flex align-items-center gap-3 text-muted">
+                            <span>+34 910 123 456</span>
+                            <i class="fas fa-phone text-primary"></i>
+                        </li>
+                        <li class="d-flex align-items-center gap-3 text-muted">
+                            <span>Madrid, España</span>
+                            <i class="fas fa-map-marker-alt text-primary"></i>
+                        </li>
+                        <li class="d-flex align-items-center gap-3 text-muted">
+                            <span>Soporte: 9:00 - 20:00</span>
+                            <i class="fas fa-clock text-primary"></i>
+                        </li>
                     </ul>
                 </div>
             </div>
 
-            <div class="footer-bottom">
-                <p>&copy; 2024 SocialLocal. Todos los derechos reservados.</p>
-                <p class="mt-2">Proyecto demostrativo con funcionalidades básicas.</p>
+            <div
+                class="border-top border-secondary mt-5 pt-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <p class="text-muted small mb-0">&copy; 2024 SocialLocal. Todos los derechos reservados.</p>
+                <p class="text-muted small mb-0">Proyecto demostrativo con funcionalidades básicas.</p>
             </div>
         </div>
     </footer>
