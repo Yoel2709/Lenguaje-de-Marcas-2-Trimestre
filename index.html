@@ -4,32 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialLocal - Eventos Privados y Planes Sociales</title>
+    <title>Socialocal - Experiencias Exclusivas</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/conference-call.png">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbarMain" data-bs-offset="100">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3" id="navbarMain">
+    <nav class="navbar navbar-expand-lg sticky-top" id="navbarMain">
         <div class="container">
-            <a href="#inicio" class="navbar-brand d-flex align-items-center gap-2 fw-bold fs-4">
-                <i class="fas fa-users text-primary"></i>
-                <span>Social<span class="text-primary">Local</span></span>
+            <a href="#inicio" class="navbar-brand d-flex align-items-center gap-2">
+                <!-- Logo SVG -->
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+                  <circle cx="18" cy="18" r="18" fill="#ff3300"/>
+                  <!-- Pin de ubicación -->
+                  <path d="M18 8C14.134 8 11 11.134 11 15c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7z" fill="white"/>
+                  <circle cx="18" cy="15" r="2.5" fill="#ff3300"/>
+                  <!-- Personas: tres círculos pequeños en la parte inferior del pin -->
+                  <circle cx="14" cy="27" r="1.5" fill="white" opacity="0.8"/>
+                  <circle cx="18" cy="29" r="1.5" fill="white" opacity="0.8"/>
+                  <circle cx="22" cy="27" r="1.5" fill="white" opacity="0.8"/>
+                </svg>
+                <span>Socialocal</span>
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent"
                 aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
+                <i class="fas fa-bars" style="color: var(--text-primary);"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="navContent">
@@ -37,12 +41,12 @@
                     <li class="nav-item"><a href="#inicio" class="nav-link active">Inicio</a></li>
                     <li class="nav-item"><a href="#eventos-seccion" class="nav-link">Eventos</a></li>
                     <li class="nav-item"><a href="#mapa" class="nav-link">Mapa</a></li>
-                    <li class="nav-item"><a href="#crear-evento" class="nav-link">Crear Evento</a></li>
+                    <li class="nav-item"><a href="#crear-evento" class="nav-link">Crear</a></li>
                     <li class="nav-item"><a href="#contacto" class="nav-link">Contacto</a></li>
                 </ul>
 
-                <button class="btn btn-primary rounded-pill px-4" id="loginBtn">
-                    <i class="fas fa-user me-2"></i> Iniciar Sesión
+                <button class="btn btn-primary" id="loginBtn">
+                    Iniciar Sesión
                 </button>
             </div>
         </div>
@@ -53,70 +57,57 @@
         <div class="notification" id="notification"></div>
     </div>
 
-    <section id="inicio" class="hero bg-light py-5 overflow-hidden position-relative">
+    <section id="inicio" class="hero position-relative">
+        
+        <!-- Marquee Brutalista -->
+        <div class="marquee-container">
+            <div class="marquee-text">
+                EXPERIENCIAS SOCIALES • <span class="filled">EVENTOS EXCLUSIVOS</span> • CONECTA • DISFRUTA • EXPERIENCIAS SOCIALES • <span class="filled">EVENTOS EXCLUSIVOS</span> • CONECTA • DISFRUTA •
+            </div>
+        </div>
+
         <div class="container">
-            <div id="eventos-seccion" class="text-center mb-5 animate-fade-in pt-5">
-                <h2 class="section-title fw-bold">Próximos <span class="text-primary">Eventos</span></h2>
-                <p class="text-muted lead mx-auto" style="max-width: 600px;">Descubre experiencias únicas organizadas
-                    por la comunidad</p>
-            </div>
-
-            <div class="filters d-flex flex-wrap justify-content-center gap-2 mb-5 animate-fade-in">
-                <button class="filter-btn btn active" data-filter="all">Todos</button>
-                <button class="filter-btn btn" data-filter="today">Hoy</button>
-                <button class="filter-btn btn" data-filter="week">Esta semana</button>
-                <button class="filter-btn btn" data-filter="month">Este mes</button>
-                <button class="filter-btn btn" data-filter="year">Este año</button>
-            </div>
-
-            <div class="row g-4 mb-5" id="eventsGrid">
-            </div>
-
             <div class="hero-content text-center py-5 animate-fade-in">
-                <h1 class="hero-title display-3 fw-bold mb-4">Descubre FIESTAS <span
-                        class="text-warning">privadas</span> (cerca de ti)</h1>
-                <p class="hero-subtitle text-muted lead mx-auto mb-5" style="max-width: 800px;">
-                    Eventos exclusivos en casas, chalets y espacios únicos. Conoce gente, comparte experiencias y vive
-                    momentos inolvidables.
+                <p class="hero-subtitle text-muted lead mx-auto mb-5" style="max-width: 800px; text-transform: uppercase; letter-spacing: 0.1em;">
+                    Eventos exclusivos en espacios únicos. Conoce gente, comparte experiencias y vive el momento.
                 </p>
 
-                <div class="hero-actions d-flex flex-wrap justify-content-center gap-3 mb-5" id="eventos">
-                    <a href="#eventos-seccion" class="btn btn-light btn-lg shadow-sm px-4 py-3">
-                        <i class="fas fa-calendar-alt me-2"></i> Explorar Eventos
+                <div class="hero-actions d-flex flex-wrap justify-content-center gap-3 mb-5">
+                    <a href="#eventos-seccion" class="btn">
+                        Explorar Eventos
                     </a>
-                    <a href="#crear-evento" class="btn btn-outline-primary btn-lg px-4 py-3">
-                        <i class="fas fa-plus-circle me-2"></i> Crear Evento
+                    <a href="#crear-evento" class="btn btn-primary">
+                        Crear Evento
                     </a>
                 </div>
             </div>
 
-            <div class="search-card bg-white rounded-4 shadow-lg p-4 p-md-5 mx-auto animate-fade-in"
-                style="max-width: 900px;">
-                <h3 class="text-center mb-4 fw-bold">Encuentra tu próximo plan</h3>
-                <div class="row g-3">
+            <!-- Buscador -->
+            <div class="search-card p-4 p-md-5 mx-auto animate-fade-in mb-5" style="max-width: 1000px;">
+                <h3 class="mb-4">Encuentra tu próximo plan</h3>
+                <div class="row g-4 align-items-end">
                     <div class="col-md-4">
-                        <div class="input-group input-group-lg bg-light border-0 rounded-3">
-                            <span class="input-group-text bg-transparent border-0"><i
-                                    class="fas fa-map-marker-alt text-muted"></i></span>
-                            <input type="text" placeholder="¿Dónde buscas?" class="form-control bg-transparent border-0"
-                                id="searchLocation">
+                        <label class="form-label">Ubicación</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                            <input type="text" placeholder="¿Dónde buscas?" class="form-control" id="searchLocation">
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="input-group input-group-lg bg-light border-0 rounded-3">
-                            <span class="input-group-text bg-transparent border-0"><i
-                                    class="fas fa-calendar-alt text-muted"></i></span>
-                            <input type="date" class="form-control bg-transparent border-0" id="searchDate">
+                        <label class="form-label">Fecha</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                            <input type="date" class="form-control" id="searchDate">
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="input-group input-group-lg bg-light border-0 rounded-3">
-                            <span class="input-group-text bg-transparent border-0"><i
-                                    class="fas fa-tag text-muted"></i></span>
-                            <select class="form-select bg-transparent border-0" id="searchType">
-                                <option value="">Tipo de evento</option>
+                        <label class="form-label">Tipo de Evento</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                            <select class="form-select" id="searchType">
+                                <option value="">Todos los tipos</option>
                                 <option>Fiesta en Casa</option>
                                 <option>Cena Privada</option>
                                 <option>Afterwork</option>
@@ -128,8 +119,8 @@
                     </div>
 
                     <div class="col-md-2">
-                        <button class="btn btn-primary btn-lg w-100 rounded-3" id="searchBtn">
-                            <i class="fas fa-search me-lg-2"></i><span class="d-none d-lg-inline">Buscar</span>
+                        <button class="btn btn-primary w-100" id="searchBtn">
+                            <i class="fas fa-search me-1"></i> Buscar
                         </button>
                     </div>
                 </div>
@@ -137,55 +128,59 @@
         </div>
     </section>
 
-    <section id="mapa" class="py-5 bg-white">
+    <!-- Sección de Eventos (Grid Inyectado por JS) -->
+    <section id="eventos-seccion" class="py-5 bg-light">
         <div class="container py-lg-5">
-            <div class="text-center mb-5 animate-fade-in">
-                <h2 class="section-title fw-bold">Eventos en el <span class="text-primary">Mapa</span></h2>
-                <p class="text-muted lead">Ubicaciones reales de los planes más interesantes de tu zona</p>
+            <div class="d-flex justify-content-between align-items-end mb-5 border-bottom border-secondary pb-4 animate-fade-in">
+                <h2 class="display-5">Feed <br><span class="text-primary">Eventos</span></h2>
+                <div class="filters d-flex gap-2">
+                    <button class="filter-btn active" data-filter="all">Todos</button>
+                    <button class="filter-btn" data-filter="today">Hoy</button>
+                    <button class="filter-btn" data-filter="week">Semana</button>
+                    <button class="filter-btn" data-filter="month">Mes</button>
+                </div>
+            </div>
+
+            <div class="row g-4" id="eventsGrid">
+                <!-- Se inyectan las cards brutalistas via script.js -->
+            </div>
+        </div>
+    </section>
+
+    <section id="mapa" class="py-5 bg-dark">
+        <div class="container py-lg-5">
+            <div class="mb-5 border-bottom border-secondary pb-4 animate-fade-in">
+                <h2 class="display-5">Mapa <br><span class="text-primary">Ubicaciones</span></h2>
             </div>
 
             <div class="row g-4">
                 <div class="col-lg-8">
-                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                        <div class="card-header bg-white border-0 p-3">
-                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-                                <div class="btn-group shadow-sm">
-                                    <button class="btn btn-outline-light text-dark border" id="zoomIn"
-                                        title="Ampliar"><i class="fas fa-plus"></i></button>
-                                    <button class="btn btn-outline-light text-dark border" id="zoomOut"
-                                        title="Alejar"><i class="fas fa-minus"></i></button>
-                                    <button class="btn btn-outline-light text-dark border" id="locationBtn"
-                                        title="Mi ubicación"><i class="fas fa-location-arrow"></i></button>
-                                    <button class="btn btn-outline-light text-dark border" id="resetViewBtn"
-                                        title="Vista inicial"><i class="fas fa-home"></i></button>
-                                </div>
-                                <div class="input-group bg-light rounded-pill px-3 py-1" style="max-width: 300px;">
-                                    <span class="input-group-text bg-transparent border-0 p-0 me-2 text-muted"><i
-                                            class="fas fa-search"></i></span>
-                                    <input type="text" class="form-control bg-transparent border-0 p-0 shadow-none"
-                                        placeholder="Buscar ubicación..." id="mapSearch">
-                                </div>
+                    <div class="card p-0">
+                        <div class="card-header border-0 p-3 d-flex justify-content-between">
+                            <div class="btn-group">
+                                <button class="btn" id="zoomIn" title="Ampliar">+</button>
+                                <button class="btn" id="zoomOut" title="Alejar">-</button>
+                                <button class="btn" id="locationBtn" title="Mi ubicación"><i class="fas fa-location-arrow"></i></button>
+                                <button class="btn" id="resetViewBtn" title="Vista inicial"><i class="fas fa-home"></i></button>
+                            </div>
+                            <div class="input-group" style="max-width: 300px;">
+                                <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
+                                <input type="text" class="form-control m-0 p-0" placeholder="Buscar ubicación..." id="mapSearch">
                             </div>
                         </div>
-                        <div id="mapContainer" style="height: 500px;"></div>
+                        <div id="mapContainer" style="height: 600px; width: 100%;"></div>
                     </div>
                 </div>
 
                 <div class="col-lg-4">
-                    <div class="card border-0 shadow-sm rounded-4 h-100">
-                        <div class="card-body p-4">
-                            <h3 class="h5 fw-bold mb-4"><i class="fas fa-layer-group text-primary me-2"></i> Categorías
-                            </h3>
-                            <div class="legend-items d-flex flex-column gap-2 mb-4" id="legendItems">
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-outline-primary rounded-3" id="clearFilters">
-                                    <i class="fas fa-filter me-2"></i> Limpiar Filtros
-                                </button>
-                                <button class="btn btn-outline-primary rounded-3" id="showAllMarkers">
-                                    <i class="fas fa-eye me-2"></i> Mostrar Todos
-                                </button>
-                            </div>
+                    <div class="card h-100 p-4">
+                        <h3 class="h4 mb-4">Categorías</h3>
+                        <div class="legend-items d-flex flex-column gap-3 mb-5" id="legendItems">
+                            <!-- Se inyecta la leyenda -->
+                        </div>
+                        <div class="d-grid gap-3 mt-auto">
+                            <button class="btn" id="clearFilters">Limpiar Filtros</button>
+                            <button class="btn btn-primary" id="showAllMarkers">Mostrar Todos</button>
                         </div>
                     </div>
                 </div>
@@ -195,129 +190,89 @@
 
     <section id="crear-evento" class="py-5 bg-light">
         <div class="container py-lg-5">
-            <div class="text-center mb-5 animate-fade-in">
-                <h2 class="section-title fw-bold">Crea tu <span class="text-primary">Evento</span></h2>
-                <p class="text-muted lead">Comparte tu plan con la comunidad y conecta con personas afines</p>
+            <div class="mb-5 border-bottom border-secondary pb-4 animate-fade-in">
+                <h2 class="display-5">Nuevo <br><span class="text-primary">Evento</span></h2>
             </div>
 
-            <div class="row g-4 justify-content-center">
+            <div class="row g-5">
                 <div class="col-lg-7">
-                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-                        <div class="card-body p-4 p-md-5">
-                            <form id="eventForm">
-                                <div class="row g-4 mb-4">
-                                    <div class="col-md-6">
-                                        <label for="event-name" class="form-label fw-semibold"><i
-                                                class="fas fa-heading text-primary me-2"></i> Nombre del Evento</label>
-                                        <input type="text" class="form-control form-control-lg rounded-3"
-                                            id="event-name" placeholder="Ej: Cena Temática Italiana" required>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="event-type" class="form-label fw-semibold"><i
-                                                class="fas fa-tag text-primary me-2"></i> Tipo de Evento</label>
-                                        <select class="form-select form-control-lg rounded-3" id="event-type" required>
-                                            <option value="">Selecciona un tipo</option>
-                                            <option>Fiesta en Casa</option>
-                                            <option>Cena Privada</option>
-                                            <option>Afterwork</option>
-                                            <option>Juegos de Mesa</option>
-                                            <option>Barbacoa</option>
-                                            <option>Concierto Íntimo</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="event-location" class="form-label fw-semibold"><i
-                                                class="fas fa-map-marker-alt text-primary me-2"></i> Ubicación</label>
-                                        <input type="text" class="form-control form-control-lg rounded-3"
-                                            id="event-location" placeholder="Dirección o zona aproximada" required>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="event-date" class="form-label fw-semibold"><i
-                                                class="fas fa-calendar-alt text-primary me-2"></i> Fecha y Hora</label>
-                                        <input type="datetime-local" class="form-control form-control-lg rounded-3"
-                                            id="event-date" required>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="event-capacity" class="form-label fw-semibold"><i
-                                                class="fas fa-users text-primary me-2"></i> Capacidad Máxima</label>
-                                        <input type="number" class="form-control form-control-lg rounded-3"
-                                            id="event-capacity" min="1" max="100" placeholder="Ej: 20" required>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="event-price" class="form-label fw-semibold"><i
-                                                class="fas fa-euro-sign text-primary me-2"></i> Precio por
-                                            Persona</label>
-                                        <input type="number" class="form-control form-control-lg rounded-3"
-                                            id="event-price" placeholder="0 si es gratis" min="0" step="0.01" required>
-                                    </div>
+                    <div class="card p-4 p-md-5">
+                        <form id="eventForm">
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <label for="event-name" class="form-label">Título</label>
+                                    <input type="text" class="form-control" id="event-name" required>
                                 </div>
 
-                                <div class="mb-4">
-                                    <label for="event-description" class="form-label fw-semibold"><i
-                                            class="fas fa-align-left text-primary me-2"></i> Descripción</label>
-                                    <textarea class="form-control rounded-3" id="event-description" rows="4"
-                                        placeholder="Describe tu evento, ambiente, normas, qué incluye..."
-                                        required></textarea>
+                                <div class="col-md-6">
+                                    <label for="event-type" class="form-label">Categoría</label>
+                                    <select class="form-select" id="event-type" required>
+                                        <option value="">Selecciona</option>
+                                        <option>Fiesta en Casa</option>
+                                        <option>Cena Privada</option>
+                                        <option>Afterwork</option>
+                                        <option>Juegos de Mesa</option>
+                                        <option>Barbacoa</option>
+                                        <option>Concierto Íntimo</option>
+                                    </select>
                                 </div>
 
-                                <div class="mb-4">
-                                    <label for="event-image" class="form-label fw-semibold"><i
-                                            class="fas fa-image text-primary me-2"></i> Imagen del Evento (URL)</label>
-                                    <input type="url" class="form-control rounded-3" id="event-image"
-                                        placeholder="https://ejemplo.com/imagen-evento.jpg">
+                                <div class="col-md-12">
+                                    <label for="event-location" class="form-label">Ubicación</label>
+                                    <input type="text" class="form-control" id="event-location" required>
                                 </div>
 
-                                <div class="alert alert-info border-0 rounded-3 d-flex align-items-center gap-3 mb-4">
-                                    <i class="fas fa-info-circle fs-4"></i>
-                                    <div class="small">Tu evento será revisado por nuestro equipo antes de ser publicado
-                                        para garantizar la seguridad de todos los participantes.</div>
+                                <div class="col-md-4">
+                                    <label for="event-date" class="form-label">Fecha y Hora</label>
+                                    <input type="datetime-local" class="form-control" id="event-date" required>
                                 </div>
 
-                                <div class="d-flex gap-3 mt-5">
-                                    <button type="reset" class="btn btn-outline-secondary flex-grow-1 py-3 rounded-pill"
-                                        id="resetForm">
-                                        <i class="fas fa-redo me-2"></i> Limpiar
-                                    </button>
-                                    <button type="submit"
-                                        class="btn btn-primary flex-grow-2 py-3 px-5 rounded-pill shadow">
-                                        <i class="fas fa-paper-plane me-2"></i> Crear Evento
-                                    </button>
+                                <div class="col-md-4">
+                                    <label for="event-capacity" class="form-label">Aforo</label>
+                                    <input type="number" class="form-control" id="event-capacity" min="1" required>
                                 </div>
-                            </form>
-                        </div>
+
+                                <div class="col-md-4">
+                                    <label for="event-price" class="form-label">Precio (€)</label>
+                                    <input type="number" class="form-control" id="event-price" min="0" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="event-description" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="event-description" rows="3" required></textarea>
+                            </div>
+
+                            <div class="mb-5">
+                                <label for="event-image" class="form-label">URL Imagen (Opcional)</label>
+                                <input type="url" class="form-control" id="event-image">
+                            </div>
+
+                            <div class="d-flex gap-3">
+                                <button type="reset" class="btn flex-grow-1" id="resetForm">Reset</button>
+                                <button type="submit" class="btn btn-primary flex-grow-1">Publicar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
-                <div class="col-lg-4">
-                    <div class="sticky-top" style="top: 100px; z-index: 1010;">
-                        <h4 class="mb-4 text-center">Vista Previa</h4>
-                        <div class="card event-card border-0 shadow-lg rounded-4 overflow-hidden">
-                            <div class="position-relative">
-                                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80"
-                                    class="card-img-top" alt="Vista previa" id="previewImage"
-                                    style="height: 200px; object-fit: cover;">
+                <div class="col-lg-5">
+                    <div class="sticky-top" style="top: 100px;">
+                        <h4 class="mb-4 text-muted">Preview</h4>
+                        <div class="card p-0">
+                            <div class="event-image">
+                                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80" alt="Preview" id="previewImage">
                             </div>
-                            <div class="card-body p-4">
-                                <h5 id="previewTitle" class="card-title fw-bold mb-3">Nombre de la fiesta</h5>
-                                <div class="d-flex flex-column gap-2 mb-3">
-                                    <div class="small text-muted"><i
-                                            class="fas fa-map-marker-alt text-primary me-2"></i> <span
-                                            id="previewLocation">Ubicación</span></div>
-                                    <div class="small text-muted"><i class="fas fa-calendar-alt text-primary me-2"></i>
-                                        <span id="previewDate">Fecha</span>
-                                    </div>
+                            <div class="p-4">
+                                <h3 id="previewTitle" class="mb-3">TÍTULO</h3>
+                                <div class="d-flex justify-content-between text-muted mb-4 small text-uppercase">
+                                    <span id="previewLocation">UBICACIÓN</span>
+                                    <span id="previewDate">FECHA</span>
                                 </div>
-                                <p id="previewDescription" class="card-text text-muted mb-4">Descripción del evento
-                                    aparecerá aquí</p>
-                                <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                                    <span id="previewPrice" class="h4 fw-bold text-primary mb-0">€</span>
-                                    <span id="previewPlaces" class="badge bg-light text-dark fw-normal rounded-pill">0
-                                        plazas</span>
+                                <p id="previewDescription" class="text-muted mb-4 small">Descripción aparecerá aquí...</p>
+                                <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary">
+                                    <span id="previewPrice" class="h4 text-primary mb-0">GRATIS</span>
+                                    <span id="previewPlaces" class="text-muted small">0 PAX</span>
                                 </div>
                             </div>
                         </div>
@@ -327,102 +282,60 @@
         </div>
     </section>
 
-    <footer id="contacto" class="bg-dark text-white py-5">
+    <footer id="contacto" class="py-5 bg-dark border-top border-secondary">
         <div class="container py-lg-4">
             <div class="row g-5 justify-content-between">
-                <div class="col-lg-4 col-md-6">
-                    <div class="d-flex align-items-center gap-2 mb-4">
-                        <i class="fas fa-users text-primary fs-3"></i>
-                        <h4 class="h3 fw-bold mb-0">Social<span class="text-primary">Local</span></h4>
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <svg width="40" height="40" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="18" cy="18" r="18" fill="#ff3300"/>
+                          <path d="M18 8C14.134 8 11 11.134 11 15c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7z" fill="white"/>
+                          <circle cx="18" cy="15" r="2.5" fill="#ff3300"/>
+                          <circle cx="14" cy="27" r="1.5" fill="white" opacity="0.8"/>
+                          <circle cx="18" cy="29" r="1.5" fill="white" opacity="0.8"/>
+                          <circle cx="22" cy="27" r="1.5" fill="white" opacity="0.8"/>
+                        </svg>
+                        <h2 class="mb-0">Socialocal</h2>
                     </div>
-                    <p class="text-muted mb-4 pe-lg-4" style="text-align: justify;">Conectamos personas a través de
-                        experiencias únicas. Descubre
-                        planes sociales y eventos exclusivos cerca de ti.</p>
-                    <div class="d-flex gap-3">
-                        <a href="#"
-                            class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
-                            style="width: 40px; height: 40px;"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"
-                            class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
-                            style="width: 40px; height: 40px;"><i class="fab fa-twitter"></i></a>
-                        <a href="#"
-                            class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
-                            style="width: 40px; height: 40px;"><i class="fab fa-instagram"></i></a>
-                        <a href="#"
-                            class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
-                            style="width: 40px; height: 40px;"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
+                    <p class="text-muted mb-4" style="text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem;">
+                        Eventos premium y experiencias exclusivas cerca de ti.
+                    </p>
                 </div>
-
-                <div class="col-lg-4 col-md-3 col-6 text-lg-center">
-                    <h5 class="fw-bold mb-4">Empresa</h5>
-                    <ul class="list-unstyled d-flex flex-column gap-2 align-items-lg-center">
-                        <li><a href="#inicio" class="text-muted text-decoration-none hover-white">Inicio</a></li>
-                        <li><a href="#eventos-seccion" class="text-muted text-decoration-none hover-white">Eventos</a>
-                        </li>
-                        <li><a href="#mapa" class="text-muted text-decoration-none hover-white">Mapa</a></li>
-                        <li><a href="#crear-evento" class="text-muted text-decoration-none hover-white">Crear</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3 col-md-6 text-lg-end">
-                    <h5 class="fw-bold mb-4">Contacto</h5>
-                    <ul class="list-unstyled d-flex flex-column gap-3 align-items-lg-end">
-                        <li class="d-flex align-items-center gap-3 text-muted">
-                            <span>info@sociallocal.com</span>
-                            <i class="fas fa-envelope text-primary"></i>
-                        </li>
-                        <li class="d-flex align-items-center gap-3 text-muted">
-                            <span>+34 910 123 456</span>
-                            <i class="fas fa-phone text-primary"></i>
-                        </li>
-                        <li class="d-flex align-items-center gap-3 text-muted">
-                            <span>Madrid, España</span>
-                            <i class="fas fa-map-marker-alt text-primary"></i>
-                        </li>
-                        <li class="d-flex align-items-center gap-3 text-muted">
-                            <span>Soporte: 9:00 - 20:00</span>
-                            <i class="fas fa-clock text-primary"></i>
-                        </li>
+                
+                <div class="col-lg-4 text-lg-end">
+                    <ul class="list-unstyled d-flex flex-column gap-3 text-muted text-uppercase" style="letter-spacing: 0.1em; font-size: 0.8rem;">
+                        <li>INFO@SOCIALOCAL.COM</li>
+                        <li>+34 910 123 456</li>
+                        <li>MADRID, ESPAÑA</li>
                     </ul>
                 </div>
             </div>
-
-            <div
-                class="border-top border-secondary mt-5 pt-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
-                <p class="text-muted small mb-0">&copy; 2024 SocialLocal. Todos los derechos reservados.</p>
-                <p class="text-muted small mb-0">Proyecto demostrativo con funcionalidades básicas.</p>
+            <div class="border-top border-secondary mt-5 pt-4 text-muted small text-uppercase d-flex justify-content-between">
+                <span>&copy; 2024 Socialocal</span>
+                <span>Todos los derechos reservados</span>
             </div>
         </div>
     </footer>
 
+    <!-- Login Modal Brutalista -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 border-0 shadow-lg">
-                <div class="modal-header border-0 pb-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content p-4">
+                <div class="modal-header border-0">
+                    <h3 class="mb-0">INICIAR SESIÓN</h3>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <div class="modal-body p-5 pt-0">
-                    <div class="text-center mb-4">
-                        <i class="fas fa-user-circle text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h3 class="fw-bold mb-0">Iniciar Sesión</h3>
-                        <p class="text-muted small">Bienvenido de nuevo a SocialLocal</p>
-                    </div>
+                <div class="modal-body">
                     <form id="loginForm">
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control rounded-3" id="loginEmail"
-                                placeholder="name@example.com" required>
-                            <label for="loginEmail">Correo electrónico</label>
+                        <div class="mb-4">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" placeholder="tu@email.com" required>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control rounded-3" id="loginPass"
-                                placeholder="Contraseña" required>
-                            <label for="loginPass">Contraseña</label>
+                        <div class="mb-5">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" placeholder="••••••••" required>
                         </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
-                        <hr class="my-4">
-                        <p class="text-center text-muted small">¿No tienes cuenta? <a href="#"
-                                class="text-primary fw-bold text-decoration-none">Regístrate</a></p>
+                        <button class="btn btn-primary w-100" type="submit">ENTRAR</button>
                     </form>
                 </div>
             </div>
@@ -430,10 +343,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script src="script.js"></script>
 </body>
-
 </html>

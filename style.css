@@ -1,211 +1,409 @@
+/* Variables Globales - Brutalist / Editorial Theme */
 :root {
-    --primary: #7c3aed;
-    --primary-dark: #5b21b6;
-    --secondary: #10b981;
-    --dark: #1f2937;
-    --light: #f9fafb;
-    --gray: #6b7280;
-    --warning: #f59e0b;
-    --danger: #ef4444;
-
-    --transition: 300ms ease;
-    --radius: 0.75rem;
-    --radius-lg: 1rem;
+    --background: #0a0a0a;
+    --surface: #141414;
+    --text-primary: #f4f4f4;
+    --text-secondary: #aaaaaa;
+    --accent: #ff3300;
+    --border-color: #333333;
+    --input-bg: #1e1e1e;
+    --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Bootstrap Overrides */
+    --bs-body-bg: var(--background);
+    --bs-body-color: var(--text-primary);
+    --bs-primary: var(--accent);
+    --bs-light: var(--surface);
+    --bs-dark: #000;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;800;900&display=swap');
 
 body {
-    font-family: 'Inter', 'Poppins', sans-serif;
-    background-color: #27ca6ba6;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--background);
+    color: var(--text-primary);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
     scroll-behavior: smooth;
-    scroll-padding-top: 80px;
 }
 
+/* Custom Selection */
+::selection {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Tipografía Básica */
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+/* Navbar Brand con Logo */
+.navbar-brand {
+    font-size: 1.4rem;
+    letter-spacing: -0.05em;
+    gap: 0.6rem !important;
+}
+
+.navbar-brand span {
+    color: var(--text-primary) !important;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.navbar-brand svg {
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover svg {
+    transform: rotate(-10deg) scale(1.1);
+}
+
+/* Navbar Brutalista */
 .navbar {
-    transition: all var(--transition);
+    background-color: var(--background) !important;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem 0 !important;
 }
 
 .nav-link {
-    font-weight: 500;
-    border-radius: var(--radius);
-    transition: all 150ms ease;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    color: var(--text-primary) !important;
+    position: relative;
+    padding: 0.5rem 1rem !important;
 }
 
-.nav-link:hover,
-.nav-link.active {
-    color: var(--primary) !important;
-    background-color: rgba(124, 58, 237, 0.1);
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+    right: 1rem;
+    height: 2px;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.nav-link:hover::after, .nav-link.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Botones Editoriales */
+.btn, .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2.5rem !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: 1px solid var(--text-primary) !important;
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    transition: var(--transition);
+    border-radius: 0 !important; /* Brutalism: sin bordes redondos */
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after, .filter-btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--text-primary);
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
+}
+
+.btn:hover, .filter-btn:hover {
+    color: var(--background) !important;
+    border-color: var(--text-primary) !important;
+}
+
+.btn:hover::after, .filter-btn:hover::after {
+    transform: translateY(0);
+}
+
+.btn-primary, .filter-btn.active {
+    background: var(--accent) !important;
+    color: #fff !important;
+    border-color: var(--accent) !important;
+}
+
+.btn-primary::after, .filter-btn.active::after {
+    background: #fff;
+}
+
+.btn-primary:hover, .filter-btn.active:hover {
+    color: var(--accent) !important;
+}
+
+/* Secciones y Layout */
+.bg-light, .bg-white {
+    background-color: var(--surface) !important;
+}
+
+.bg-dark {
+    background-color: #000 !important;
+    border-top: 1px solid var(--border-color);
+}
+
+.shadow-sm, .shadow-lg, .shadow {
+    box-shadow: none !important;
+}
+
+.rounded-3, .rounded-4, .rounded-pill, .rounded-circle, .rounded {
+    border-radius: 0 !important;
+}
+
+.border-0 {
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Hero Section y Marquee Cinético */
 .hero {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+    padding-top: 8rem !important;
+    padding-bottom: 5rem !important;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.hero-title,
-.section-title {
-    background: linear-gradient(90deg, #ef4444 0%, #10b981 20%, #3b82f6 40%, #8b5cf6 60%, #f59e0b 80%, #6366f1 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent !important;
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    margin-bottom: 4rem;
 }
 
-.hero-title span,
-.section-title span {
-    color: transparent !important;
+.marquee-text {
+    display: inline-block;
+    font-size: clamp(4rem, 12vw, 12rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--text-primary);
+    animation: scrollText 20s linear infinite;
+    line-height: 1;
 }
 
-.filter-btn {
-    border-radius: 50px !important;
-    border: 2px solid #e5e7eb !important;
-    background: white !important;
-    font-weight: 500 !important;
-    color: var(--gray) !important;
-    padding: 0.5rem 1.5rem !important;
+.marquee-text span.filled {
+    color: var(--accent);
+    -webkit-text-stroke: 0;
 }
 
-.filter-btn:hover {
-    border-color: var(--primary) !important;
-    color: var(--primary) !important;
+@keyframes scrollText {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
-.filter-btn.active {
-    background: var(--primary) !important;
-    color: white !important;
-    border-color: var(--primary) !important;
+/* Tarjetas (Cards) de Eventos */
+.card {
+    background: var(--surface) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 0 !important;
+    transition: var(--transition);
 }
 
-.event-card {
-    transition: all var(--transition);
-}
-
-.event-card:hover {
-    transform: translateY(-10px);
+.card:hover {
+    border-color: var(--accent) !important;
+    transform: translateY(-5px);
 }
 
 .event-image {
-    height: 200px;
+    height: 250px;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
     overflow: hidden;
 }
 
 .event-image img {
-    transition: transform 500ms ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: var(--transition);
 }
 
-.event-card:hover .event-image img {
-    transform: scale(1.08);
+.card:hover .event-image img {
+    filter: grayscale(0%);
+    transform: scale(1.05);
 }
 
 .event-badge {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    padding: 0.25rem 1rem;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: white;
-    text-transform: uppercase;
-}
-
-.badge-fiesta {
-    background: #ef4444;
-}
-
-.badge-gastronomia {
-    background: #10b981;
-}
-
-.badge-juegos {
-    background: #3b82f6;
-}
-
-.badge-musica {
-    background: #8b5cf6;
-}
-
-.badge-barbacoa {
-    background: #f59e0b;
-}
-
-.badge-networking {
-    background: #6366f1;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
     padding: 0.5rem 1rem;
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: all var(--transition);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--background);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    z-index: 2;
 }
 
-.legend-item:hover,
-.legend-item.active {
-    background: #f3f4f6;
-}
-
-.legend-color {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+/* Mapa - a color completo, sin filtros */
+.leaflet-container {
+    border: 1px solid var(--border-color);
 }
 
 .custom-marker {
-    background: white;
-    border-radius: 50%;
+    background: var(--background);
+    border-radius: 0; /* Marcadores cuadrados */
     width: 44px;
     height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    border: 3px solid var(--primary);
-    transition: all var(--transition);
+    border: 2px solid var(--accent);
+    transition: var(--transition);
     cursor: pointer;
 }
 
 .custom-marker:hover {
-    transform: scale(1.15);
-    background: var(--primary);
-    color: white;
+    background: var(--accent);
+    color: #fff;
+    transform: scale(1.1);
 }
 
 .custom-marker i {
-    font-size: 1.1rem;
-    color: var(--primary);
+    font-size: 1.2rem;
+    color: var(--accent);
 }
 
 .custom-marker:hover i {
-    color: white;
+    color: #fff;
 }
 
-footer .text-muted {
-    color: rgba(255, 255, 255, 0.6) !important;
+.leaflet-popup-content-wrapper {
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+}
+.leaflet-popup-tip {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
 }
 
-footer a.text-muted:hover {
-    color: white !important;
+/* Legend items */
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--border-color) !important;
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--background);
+    color: var(--text-primary);
 }
 
-.hover-white {
-    transition: all 0.2s ease;
+.legend-item:hover, .legend-item.active {
+    border-color: var(--accent) !important;
+    background: var(--surface) !important;
 }
 
-.hover-white:hover {
-    color: white !important;
-    padding-left: 5px;
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
 }
 
+/* Formularios y Búsqueda */
+.form-control, .form-select {
+    background: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 0 !important;
+    color: var(--text-primary) !important;
+    padding: 0.85rem 1rem !important;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+}
+
+.form-control::placeholder {
+    color: var(--text-secondary) !important;
+    opacity: 1;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: none !important;
+    border-color: var(--accent) !important;
+    background: #252525 !important;
+    color: var(--text-primary) !important;
+}
+
+.form-select option {
+    background: #1e1e1e;
+    color: var(--text-primary);
+}
+
+.form-label {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.input-group-text {
+    background: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-right: none !important;
+    color: var(--accent) !important;
+    border-radius: 0 !important;
+    padding: 0.85rem 1rem !important;
+}
+
+/* En el grupo de inputs, el input no repite borde izquierdo */
+.input-group .form-control, .input-group .form-select {
+    border-left: none !important;
+}
+
+.search-card {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+}
+
+.search-card h3 {
+    color: var(--text-primary);
+}
+
+/* Notificaciones */
 .notification {
-    padding: 1rem 2rem;
-    background: var(--primary);
-    color: white;
-    border-radius: var(--radius);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    padding: 1.5rem 3rem;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: none;
+    box-shadow: none;
     opacity: 0;
     transform: translateY(-20px);
-    transition: all var(--transition);
+    transition: var(--transition);
 }
 
 .notification.show {
@@ -213,50 +411,85 @@ footer a.text-muted:hover {
     transform: translateY(0);
 }
 
-.notification.success {
-    background: var(--secondary);
-}
-
 .notification.error {
-    background: var(--danger);
+    background: #ff003c;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
+/* Animaciones Básicas */
 .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-fade-in-up {
-    animation: fadeInUp 0.5s ease-out forwards;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Utils y Textos Generales */
+.text-primary {
+    color: var(--accent) !important;
+}
+
+.text-muted {
+    color: var(--text-secondary) !important;
+}
+
+.bg-white.card-header {
+    background: var(--surface) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.modal-content {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+}
+
+/* Contraste general: inputs de fecha, hora etc. en navegadores webkit */
+input[type='date'],
+input[type='datetime-local'],
+input[type='time'] {
+    color-scheme: dark;
+    color: var(--text-primary) !important;
+    background: var(--input-bg) !important;
+}
+
+/* Textos de tarjetas y secciones siempre visibles */
+.card h3, .card h4, .card h5, .card p, .card span {
+    color: var(--text-primary);
+}
+
+/* Popup del mapa */
+.leaflet-popup-content-wrapper {
+    background: #1a1a1a;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    box-shadow: none;
+}
+.leaflet-popup-tip { background: #1a1a1a; }
+
+/* Mapa a color - sin filtros */
+.leaflet-container {
+    border: 1px solid var(--border-color);
+    /* SIN grayscale ni invert - mapa en color natural */
+}
+
+/* Responsive navbar */
 @media (max-width: 991px) {
     .navbar-collapse {
-        background: white;
+        background: var(--surface);
         padding: 1rem;
-        border-radius: 0.5rem;
-        margin-top: 1rem;
-        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        border: 1px solid var(--border-color);
+        margin-top: 0.5rem;
     }
 }
