@@ -1,0 +1,46 @@
+<section id="mapa" class="py-5 bg-dark">
+  <div class="container py-lg-5">
+    <div class="mb-5 border-bottom border-secondary pb-4 animate-fade-in">
+      <h2 class="display-5">Mapa <br><span class="text-primary">Ubicaciones</span></h2>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card p-0">
+          <div class="card-header border-0 p-3 d-flex justify-content-between">
+            <div class="btn-group">
+              <button class="btn" (click)="zoomIn()" title="Ampliar">+</button>
+              <button class="btn" (click)="zoomOut()" title="Alejar">-</button>
+              <button class="btn" (click)="resetView()" title="Vista inicial"><i class="fas fa-home"></i></button>
+            </div>
+            <div class="input-group" style="max-width: 300px;">
+              <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
+              <input type="text" class="form-control m-0 p-0" placeholder="Buscar ubicación..." id="mapSearch">
+            </div>
+          </div>
+          <div #mapContainer style="height: 600px; width: 100%;"></div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card h-100 p-4">
+          <h3 class="h4 mb-4">Categorías</h3>
+          <div class="legend-items d-flex flex-column gap-3 mb-5">
+            <div *ngFor="let cat of categories" 
+                 class="legend-item" 
+                 [class.active]="isCategoryActive(cat)"
+                 (click)="toggleCategory(cat)">
+              <span class="legend-color" [style.background]="categoryConfig[cat].color"></span>
+              <span class="flex-grow-1 small text-uppercase" style="letter-spacing: 0.1em;">{{ categoryConfig[cat].name }}</span>
+              <span class="text-muted small">({{ getCategoryCount(cat) }})</span>
+            </div>
+          </div>
+          <div class="d-grid gap-3 mt-auto">
+            <button class="btn" (click)="clearFilters()">Limpiar Filtros</button>
+            <button class="btn btn-primary" (click)="showAll()">Mostrar Todos</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

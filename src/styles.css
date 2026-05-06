@@ -1,0 +1,191 @@
+/* Variables Globales - Brutalist / Editorial Theme */
+:root {
+    --background: #0a0a0a;
+    --surface: #141414;
+    --text-primary: #f4f4f4;
+    --text-secondary: #aaaaaa;
+    --accent: #ff3300;
+    --border-color: #333333;
+    --input-bg: #1e1e1e;
+    --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Bootstrap Overrides */
+    --bs-body-bg: var(--background);
+    --bs-body-color: var(--text-primary);
+    --bs-primary: var(--accent);
+    --bs-light: var(--surface);
+    --bs-dark: #000;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;800;900&display=swap');
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "leaflet/dist/leaflet.css";
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--background);
+    color: var(--text-primary);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Custom Selection */
+::selection {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Tipografía Básica */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+/* Botones Editoriales */
+.btn, .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2.5rem !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: 1px solid var(--text-primary) !important;
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    transition: var(--transition);
+    border-radius: 0 !important;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn::after, .filter-btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--text-primary);
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
+}
+
+.btn:hover, .filter-btn:hover {
+    color: var(--background) !important;
+    border-color: var(--text-primary) !important;
+}
+
+.btn:hover::after, .filter-btn:hover::after {
+    transform: translateY(0);
+}
+
+.btn-primary, .filter-btn.active {
+    background: var(--accent) !important;
+    color: #fff !important;
+    border-color: var(--accent) !important;
+}
+
+.btn-primary::after, .filter-btn.active::after {
+    background: #fff;
+}
+
+.btn-primary:hover, .filter-btn.active:hover {
+    color: var(--accent) !important;
+}
+
+/* Secciones y Layout */
+.bg-light, .bg-white {
+    background-color: var(--surface) !important;
+}
+
+.bg-dark {
+    background-color: #000 !important;
+    border-top: 1px solid var(--border-color);
+}
+
+.rounded-3, .rounded-4, .rounded-pill, .rounded-circle, .rounded {
+    border-radius: 0 !important;
+}
+
+.border-0 {
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Formularios y Búsqueda */
+.form-control, .form-select {
+    background: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 0 !important;
+    color: var(--text-primary) !important;
+    padding: 0.85rem 1rem !important;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: none !important;
+    border-color: var(--accent) !important;
+    background: #252525 !important;
+    color: var(--text-primary) !important;
+}
+
+.form-label {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.input-group-text {
+    background: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-right: none !important;
+    color: var(--accent) !important;
+    border-radius: 0 !important;
+    padding: 0.85rem 1rem !important;
+}
+
+.input-group .form-control, .input-group .form-select {
+    border-left: none !important;
+}
+
+/* Utils y Textos Generales */
+.text-primary {
+    color: var(--accent) !important;
+}
+
+.text-muted {
+    color: var(--text-secondary) !important;
+}
+
+/* Leaflet Overrides */
+.leaflet-container {
+    border: 1px solid var(--border-color);
+}
+
+.leaflet-popup-content-wrapper {
+    background: #1a1a1a;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.leaflet-popup-tip {
+    background: #1a1a1a;
+}

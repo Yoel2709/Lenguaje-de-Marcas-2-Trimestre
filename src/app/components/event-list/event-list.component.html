@@ -1,0 +1,36 @@
+<section id="eventos-seccion" class="py-5 bg-light">
+  <div class="container py-lg-5">
+    <div class="d-flex justify-content-between align-items-end mb-5 border-bottom border-secondary pb-4 animate-fade-in">
+      <h2 class="display-5">Feed <br><span class="text-primary">Eventos</span></h2>
+      <div class="filters d-flex gap-2">
+        <button class="filter-btn" [class.active]="isActive('all')" (click)="setFilter('all')">Todos</button>
+        <button class="filter-btn" [class.active]="isActive('today')" (click)="setFilter('today')">Hoy</button>
+        <button class="filter-btn" [class.active]="isActive('week')" (click)="setFilter('week')">Semana</button>
+        <button class="filter-btn" [class.active]="isActive('month')" (click)="setFilter('month')">Mes</button>
+      </div>
+    </div>
+
+    <div class="row g-4" id="eventsGrid">
+      <div *ngFor="let event of events()" class="col-md-6 col-lg-4 animate-fade-in-up">
+        <div class="card h-100 p-0">
+          <div class="event-image">
+            <img [src]="event.image" [alt]="event.title" loading="lazy">
+            <span class="event-badge">{{ event.type }}</span>
+          </div>
+          <div class="p-4 d-flex flex-column h-100">
+            <h3 class="mb-4">{{ event.title }}</h3>
+            <div class="d-flex justify-content-between text-muted mb-4 small text-uppercase" style="letter-spacing: 0.1em;">
+              <span>{{ event.location }}</span>
+              <span>{{ event.date | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <p class="text-muted mb-4 flex-grow-1 small">{{ event.description }}</p>
+            <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary">
+              <span class="h4 text-primary mb-0">{{ event.price === 0 ? 'GRATIS' : event.price + '€' }}</span>
+              <button class="btn btn-primary" (click)="showDetails(event)">VER</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

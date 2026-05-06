@@ -263,11 +263,7 @@ a {
     z-index: 2;
 }
 
-/* Mapa - a color completo, sin filtros */
-.leaflet-container {
-    border: 1px solid var(--border-color);
-}
-
+/* Mapa */
 .custom-marker {
     background: var(--background);
     border-radius: 0; /* Marcadores cuadrados */
@@ -294,17 +290,6 @@ a {
 
 .custom-marker:hover i {
     color: #fff;
-}
-
-.leaflet-popup-content-wrapper {
-    background: var(--surface);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 0;
-}
-.leaflet-popup-tip {
-    background: var(--surface);
-    border: 1px solid var(--border-color);
 }
 
 /* Legend items */
@@ -468,7 +453,11 @@ input[type='time'] {
     color: var(--text-primary);
 }
 
-/* Popup del mapa */
+/* Mapa - Popup y contenedor */
+.leaflet-container {
+    border: 1px solid var(--border-color);
+}
+
 .leaflet-popup-content-wrapper {
     background: #1a1a1a;
     color: var(--text-primary);
@@ -476,12 +465,9 @@ input[type='time'] {
     border-radius: 0;
     box-shadow: none;
 }
-.leaflet-popup-tip { background: #1a1a1a; }
 
-/* Mapa a color - sin filtros */
-.leaflet-container {
-    border: 1px solid var(--border-color);
-    /* SIN grayscale ni invert - mapa en color natural */
+.leaflet-popup-tip {
+    background: #1a1a1a;
 }
 
 /* Responsive navbar */

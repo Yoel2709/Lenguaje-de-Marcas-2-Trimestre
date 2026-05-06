@@ -1,0 +1,69 @@
+<section id="inicio" class="hero position-relative">
+  <!-- Marquee Brutalista -->
+  <div class="marquee-container">
+    <div class="marquee-text">
+      EXPERIENCIAS SOCIALES • <span class="filled">EVENTOS EXCLUSIVOS</span> • CONECTA • DISFRUTA • EXPERIENCIAS SOCIALES • <span class="filled">EVENTOS EXCLUSIVOS</span> • CONECTA • DISFRUTA •
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="hero-content text-center py-5 animate-fade-in">
+      <p class="hero-subtitle text-muted lead mx-auto mb-5" style="max-width: 800px; text-transform: uppercase; letter-spacing: 0.1em;">
+        Eventos exclusivos en espacios únicos. Conoce gente, comparte experiencias y vive el momento.
+      </p>
+
+      <div class="hero-actions d-flex flex-wrap justify-content-center gap-3 mb-5">
+        <a href="#eventos-seccion" class="btn">
+          Explorar Eventos
+        </a>
+        <a href="#crear-evento" class="btn btn-primary">
+          Crear Evento
+        </a>
+      </div>
+    </div>
+
+    <!-- Buscador -->
+    <div class="search-card p-4 p-md-5 mx-auto animate-fade-in mb-5" style="max-width: 1000px;">
+      <h3 class="mb-4">Encuentra tu próximo plan</h3>
+      <div class="row g-4 align-items-end">
+        <div class="col-md-4">
+          <label class="form-label">Ubicación</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+            <input type="text" placeholder="¿Dónde buscas?" class="form-control" [(ngModel)]="searchLocation" (input)="onSearch()">
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Fecha</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+            <input type="date" class="form-control" [(ngModel)]="searchDate" (change)="onSearch()">
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Tipo de Evento</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-tag"></i></span>
+            <select class="form-select" [(ngModel)]="searchType" (change)="onSearch()">
+              <option value="">Todos los tipos</option>
+              <option>Fiesta en Casa</option>
+              <option>Cena Privada</option>
+              <option>Afterwork</option>
+              <option>Juegos de Mesa</option>
+              <option>Barbacoa</option>
+              <option>Concierto Íntimo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100" (click)="onSearch()">
+            <i class="fas fa-search me-1"></i> Buscar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

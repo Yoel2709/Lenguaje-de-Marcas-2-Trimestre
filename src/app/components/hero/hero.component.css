@@ -1,0 +1,42 @@
+.hero {
+    padding-top: 8rem !important;
+    padding-bottom: 5rem !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    margin-bottom: 4rem;
+}
+
+.marquee-text {
+    display: inline-block;
+    font-size: clamp(4rem, 12vw, 12rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--text-primary);
+    animation: scrollText 20s linear infinite;
+    line-height: 1;
+}
+
+.marquee-text span.filled {
+    color: var(--accent);
+    -webkit-text-stroke: 0;
+}
+
+@keyframes scrollText {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.search-card {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+}
+
+.search-card h3 {
+    color: var(--text-primary);
+}
